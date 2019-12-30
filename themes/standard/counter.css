@@ -1,0 +1,92 @@
+/* ---------------------------------------------------------
+   Stylesheet created by PHP Web Stat
+   PHP Web Stat v5.0 (https://www.php-web-statistik.de)
+   Copyright 2017 PHP Web Stat
+--------------------------------------------------------- */
+
+/*###############
+#    Counter    #
+###############*/
+
+body {
+  background-color: transparent;
+  text-align: center;
+}
+a {
+  color: #fff;
+}
+a:hover,
+a:focus {
+  color: #a7a7a7;
+  text-decoration: underline;
+}
+#counter {
+  width: 140px;
+  margin: 0 auto;
+}
+
+/*! counter style */
+.header-table, .data-table, .footer-table {
+  width: 100%;
+  color: #000;
+  font-size: 11px;
+  letter-spacing: 1px;
+  line-height: 1.2em;
+}
+.header-l {
+  width: 7px;
+  background: url('bg_counter.png') top left no-repeat;
+  background-position: 0% 0px;
+  line-height: 22px;
+  margin: 0px;
+  padding: 0px;
+}
+.header-r {
+  background: url('bg_counter.png') top right no-repeat;
+  background-position: 100% 0px;
+  font-weight: bold;
+  text-align: left;
+  line-height: 22px;
+  margin: 0px;
+  padding: 0px;
+}
+.data-table {
+  border-left: 1px solid #537392;
+  border-right: 1px solid #537392;
+  border-bottom: 1px solid #537392;
+}
+.counter-bg {
+  background: #cad7e3;
+  background: -webkit-radial-gradient(center, #fff, #cad7e3);
+  background:    -moz-radial-gradient(center, #fff, #cad7e3);
+  background:     -ms-radial-gradient(center, #fff, #cad7e3);
+  background:      -o-radial-gradient(center, #fff, #cad7e3);
+  background:         radial-gradient(center, #fff, #cad7e3);
+}
+.counter-data {
+  text-align: left;
+  padding: 0px 5px 0px 3px;
+}
+.counter-hits {
+  text-align: right;
+  padding: 0px 3px 0px 5px;
+}
+.footer-l {
+  width: 7px;
+  height: 20px;
+  background: url('bg_counter.png') top left no-repeat;
+  background-position: 0% -22px;
+  margin: 0px;
+  padding: 0px;
+}
+.footer-r {
+  height: 20px;
+  background: url('bg_counter.png') top right no-repeat;
+  background-position: 100% -22px;
+  color: #FFFFFF;
+  font-weight: bold;
+  text-align: center;
+  vertical-align: top;
+  margin: 0px;
+  padding: 1px 7px 0px 0px;
+}

@@ -1,0 +1,14 @@
+// Bulgarian
+{
+"hintClose":   "Изход (клавиш: Esc)",
+"hintPrev":    "Предишна (клавиш: ←)",
+"hintNext":    "Следваща (клавиш: →)",
+"hintPlay":    "Play (клавиш: интервал)",
+"hintPause":   "Пауза (клавиш: интервал)",
+"hintResize":  "Resize (клавиш: Tab)",
+"imgCount":    "Снимка %1 от %2",
+"nonImgCount": "Страница %1 от %2",
+"mixedCount":  "(%1 от %2)",
+"infoText":    "Инфо...",
+"printText":   "Принт..."
+}

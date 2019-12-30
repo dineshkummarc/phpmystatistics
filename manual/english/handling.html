@@ -1,0 +1,119 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<head>
+<title>PHP-Web-Statistik Quick Guide</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link rel="stylesheet" type="text/css" href="../style.css">
+<script type="text/javascript">
+function surfto(form) {
+var myindex=form.language.selectedIndex
+if (form.language.options[myindex].value != "0") {
+location=form.language.options[myindex].value;}
+}
+</script>
+</head>
+
+<body>
+<div id="logo"><img class="logo" src="../images/logo.gif" alt="www.php-web-statistik.de" title="www.php-web-statistik.de"></div>
+<div id="guide"><img src="../images/qgtitle_en.gif" alt=""></div>
+<div id="version"><i>Version 5.1</i></div>
+<table id="groundtable" cellspacing="0" cellpadding="0" align="center">
+<tr>
+  <td class="header" colspan="2">&nbsp;</td>
+</tr>
+<tr>
+  <td class="menue">
+    <div id="project">PHP Web Stat</div>
+    <div id="language">
+    <form method="post" action="">
+      <select name="language" onchange="surfto(this.form)" size="1">
+      <option value="index.html">English</option>
+      <option value="../german/index.html">German</option>
+      </select>
+    </form>
+    </div>
+    <div id="menu_left">
+    <ul><li><a href="index.html">Introduction</a></li></ul>
+    <h3>Installation</h3>
+    <ul><li><a href="step_1.html">Step 1 - Uploading</a></li></ul>
+    <ul><li><a href="step_2.html">Step 2 - chmod</a></li></ul>
+    <ul><li><a href="step_3.html">Step 3 - Setup</a></li></ul>
+    <ul><li><a href="step_4.html">Step 4 - Javascript</a></li></ul>
+    <h3>Extras</h3>
+    <ul><li><a class="current" href="handling.html">Handling</a></li></ul>
+    <ul><li><a href="counter.html">Counter</a></li></ul>
+    <ul><li><a href="sysinfo.html">Sysinfo</a></li></ul>
+    <ul><li><a href="opt-out.html">Opt Out</a></li></ul>
+    <ul><li><a href="plugins.html">Plugins</a></li></ul>
+    <h3>Service</h3>
+    <ul><li><a href="faq.html">FAQ</a></li></ul>
+    <ul><li><a href="support.html">Support-Forum</a></li></ul>
+    <h3>Other</h3>
+    <ul><li><a href="license.html">License</a></li></ul>
+    </div>
+  </td>
+  <td class="content">
+    <div id="content">
+      <h3>Handling</h3><br>
+      <b><big>Analysis of a time interval</big></b><br>
+      <p>If you want to analyze the visitors by a time interval, please click on menue / <u>Archive</u>. There choose the starting and end date of your interval.
+      Besides, the analysis of this choosen interval can be saved at the top of the page. So if you revisit the <u>Archive</u> function you can directly choose the saved interval.
+      If you want to delete such a saved analysis, you can do this in the <u>Admin-Center</u>.
+      </p>
+
+      <b><big>Dynamic Sites</big></b><br>
+      <p>Some sites run with dynamic url parameters like &quot;index.php?x=1&amp;y=2&quot;. The default setting of the stat is to delete all url parameters. So only the name
+      &quot;index.php&quot; will be saved in the logfile. If you prefer to track such a parameter, just open the <u>Admin-Center</u> and edit the entry <u>Dynamic URL</u> with the
+      parameters you want to be tracked.
+      <br>
+      <br>
+      Example: If the URL is &quot;index.php?x=1&amp;y=2&quot;, edit &quot;x,y&quot; to track all parameters.
+      <br>
+      <br>
+      Besides we give you the possibility to rename all sites you tracked. Take a look at the paragraph <u>Renaming Sites</u>.
+      </p>
+
+      <b><big>Renaming Sites</big></b><br>
+      <p>Sometimes its useful to rename sites in your stat. This can be done within the <u>Admin-Center</u>.
+      Just click on <u>Edit Sitenames</u>. The format you got to use for editing is the following:
+      </p>
+      <ul>
+        <li><b>index.html|Startpage</b></li>
+        <li><b>contact.html|Contact</b></li>
+        <li><b>...</b></li>
+      </ul>
+      <p>
+      Please be aware to use the char &quot;|&quot; for seperation.
+      </p>
+
+      <b><big>Replacement of String Parts</big></b><br>
+      <p>The stat view can be enhanced by replacing parts of your own sitenames (URLs).
+      In cases of changing sitenames over the time, this function enables you to integrate these different sitenames.
+      You can also simply replace all specific string parts you would like to shorten or to merge.
+      The following example should give you an idea of what can be done with this replacement function:
+      </p>
+      <ul>
+      	<li><b>shop-buy-cart|shoppingcart</b></li>
+      	<li><b>...</b></li>
+      </ul>
+      <p>
+      Please notice that between the two words the folling char has to be set: "|"
+      </p>
+
+      <b><big>IP Anonymization</big></b><br>
+      <p>Due to data protection laws of various countries, it is not permitted to record and maintain the IP address of the visitor. For this reason, you have the option in the Admin Center to define the type of anonymization.
+      For this purpose we offer the complete replacement of the IP address by a hash value. However, you can also make only a partial anonymization, which only anonymizes the last block of an IP address.
+      Please note that this setting only applies to new visitors. The IP addresses of visitors continue to be kept in records and thus log files.
+      </p>
+
+      <b><big>Exclude own visits</big></b><br>
+      <p>To exclude your own visits from tracking, just click on the graphic on the top.
+      </p>
+    </div>
+  </td>
+</tr>
+</table>
+
+
+
+</body>
+</html>

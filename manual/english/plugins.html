@@ -1,0 +1,101 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<head>
+<title>PHP-Web-Statistik Quick Guide</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link rel="stylesheet" type="text/css" href="../style.css">
+<script type="text/javascript">
+function surfto(form) {
+var myindex=form.language.selectedIndex
+if (form.language.options[myindex].value != "0") {
+location=form.language.options[myindex].value;}
+}
+</script>
+</head>
+
+<body>
+<div id="logo"><img class="logo" src="../images/logo.gif" alt="www.php-web-statistik.de" title="www.php-web-statistik.de"></div>
+<div id="guide"><img src="../images/qgtitle_en.gif" alt=""></div>
+<div id="version"><i>Version 5.1</i></div>
+<table id="groundtable" cellspacing="0" cellpadding="0" align="center">
+<tr>
+  <td class="header" colspan="2">&nbsp;</td>
+</tr>
+<tr>
+  <td class="menue">
+    <div id="project">PHP Web Stat</div>
+    <div id="language">
+    <form method="post" action="">
+      <select name="language" onchange="surfto(this.form)" size="1">
+      <option value="index.html">English</option>
+      <option value="../german/index.html">German</option>
+      </select>
+    </form>
+    </div>
+    <div id="menu_left">
+    <ul><li><a href="index.html">Introduction</a></li></ul>
+    <h3>Installation</h3>
+    <ul><li><a href="step_1.html">Step 1 - Uploading</a></li></ul>
+    <ul><li><a href="step_2.html">Step 2 - chmod</a></li></ul>
+    <ul><li><a href="step_3.html">Step 3 - Setup</a></li></ul>
+    <ul><li><a href="step_4.html">Step 4 - Javascript</a></li></ul>
+    <h3>Extras</h3>
+    <ul><li><a href="handling.html">Handling</a></li></ul>
+    <ul><li><a href="counter.html">Counter</a></li></ul>
+    <ul><li><a href="sysinfo.html">Sysinfo</a></li></ul>
+    <ul><li><a href="opt-out.html">Opt Out</a></li></ul>
+    <ul><li><a class="current" href="plugins.html">Plugins</a></li></ul>
+    <h3>Service</h3>
+    <ul><li><a href="faq.html">FAQ</a></li></ul>
+    <ul><li><a href="support.html">Support-Forum</a></li></ul>
+    <h3>Other</h3>
+    <ul><li><a href="license.html">License</a></li></ul>
+    </div>
+  </td>
+  <td class="content">
+    <div id="content">
+      <h3>Plugins (Plugin-Pack)</h3><br>
+      <p>Since version 5.x, PHP Web Stat now also allows the integration of plugins (modular extensions), which provide additional functionality for a user.</p>
+      <p>The plugins can be easily and conveniently integrated into an existing installation of the PHP Web Stat. It is necessary to purchase a license for a one-time fee to unlock the plugins. You will receive the activation of your personal plugin-license based on the email address you provided when you purchased the license.</p>
+      <p>A plugin-license is always based on an email address and a domain name. This allows you an unrestricted number of installations of the PHP Web Stat (together with the plugins) on the desired domain. The tracking of visitors for a specific domain is independent of the domain specified during licensing.</p>
+      <p>The following example will explain this in more detail:<br>
+      1. Installation on http://example.com/stat1, tracking visitors for the domains example.com, example2.com, example3.com, etc.<br>
+      2. Installation on http://example.com/stat2, tracking visitors for the domains visit1.com, visit2.com, visit3.com, etc.<br>
+      <p style="background: rgba(244, 238, 66, .4)"><b>As long as the PHP Web Stat is installed on the same domain, the license is valid and allows the use of the plugins.</b></p>
+      <hr>
+      <p>The following extensions are currently (state 06-2018) available:</p>
+      <b><big>AutoUpdate country code</big></b><br>
+      <p>To enable PHP Web Stat to automatically recognize the country of origin of a visitor, current country recognition patterns are always required. These are made available monthly free of charge on the PHP Web Stat website.<br>This plugin checks for updated country recognition patterns and installs them automatically. No need to enter the statistics, updates are automatically detected and installed in the background.</p>
+      <b><big>Accesses &amp; Visitor Charts</big></b><br>
+      <p>The plugin shows the visitors and their page visits (accesses), once of the last 10 days and once of the last 30 days in two graphs.<br>This view allows the user to see current trends in the number of visits and pages visited.</p>
+      <b><big>Last Accesses</big></b><br>
+      <p>The plugin allows a detailed analysis of visitors and their page accesses. All page views are displayed in a table with the following details:<br>
+      <ul>
+        <li>Date & Time</li>
+        <li>Country of origin</li>
+        <li>IP address (IPv4 and IPv6)</li>
+        <li>Operating system and version</li>
+        <li>Browser and version</li>
+        <li>Screen resolution</li>
+        <li>Screen color depth</li>
+        <li>Visited page</li>
+        <li>Originating page (Referrer)</li>
+      </ul>
+      The user can go back and forth on a daily basis to analyze the entries for a calendar day in detail. A built-in calendar allows you to jump to a desired date. In addition, the number of entries to be displayed can be specified. The Plugin is rounded off by a detailed origin recognition of the IP address of the visitor over a freely selectable GeoIP service.<br>The plugin can be adapted to the needs of the user by means of a clear configuration.</p>
+      <b><big>Email Report</big></b><br>
+      <p>The plugin generates weekly or monthly reports from the recorded statistical data and sends them to recipients of your choice. These reports include the total number of visitors since the time of recording, the number of visitors in the current month and year.<br>The plugin can be adapted to the needs of the user by means of a clear configuration.</p>
+      <b><big>Click Counter</big></b><br>
+      <p>The plugin records the clicks a visitor makes on a link or a file and evaluates this data. For each click, the user receives an individual evaluation of the total number and daily clicks.</p>
+      <b><big>Pie Charts</big></b><br>
+      <p>The plugin generates four pie charts from the statistics data, which display the statistics modules browser, operating system, screen resolution and screen color depth.</p>
+      <b><big>Accesses Month &amp; Year</big></b><br>
+      <p>The plugin shows the page visits (accesses) of the users, once the months and once the years in two curve diagrams.<br>This view allows the user to see the long-term trends in the number of pages visited since the installation of PHP Web Stat.</p>
+      <p><b><a style="background:rgba(244, 238, 66, .4); font-size:16px" href="https://www.php-web-statistik.de/en/downloads.php" target="new">Plugin-Pack Download</a></b></p>
+    </div>
+  </td>
+</tr>
+</table>
+
+
+
+</body>
+</html>

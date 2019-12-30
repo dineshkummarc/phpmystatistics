@@ -1,0 +1,101 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<head>
+<title>PHP-Web-Statistik Quick Guide</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link rel="stylesheet" type="text/css" href="../style.css">
+<script type="text/javascript">
+function surfto(form) {
+var myindex=form.language.selectedIndex
+if (form.language.options[myindex].value != "0") {
+location=form.language.options[myindex].value;}
+}
+</script>
+</head>
+
+<body>
+<div id="logo"><img class="logo" src="../images/logo.gif" alt="www.php-web-statistik.de" title="www.php-web-statistik.de"></div>
+<div id="guide"><img src="../images/qgtitle_de.gif" alt=""></div>
+<div id="version"><i>Version 5.1</i></div>
+<table id="groundtable" cellspacing="0" cellpadding="0" align="center">
+<tr>
+  <td class="header" colspan="2">&nbsp;</td>
+</tr>
+<tr>
+  <td class="menue">
+    <div id="project">PHP Web Stat</div>
+    <div id="language">
+    <form method="post" action="">
+      <select name="language" onchange="surfto(this.form)" size="1">
+      <option value="index.html">Deutsch</option>
+      <option value="../english/index.html">English</option>
+      </select>
+    </form>
+    </div>
+    <div id="menu_left">
+    <ul><li><a href="index.html">Einf&uuml;hrung</a></li></ul>
+    <h3>Installation</h3>
+    <ul><li><a href="step_1.html">Schritt 1 - Uploaden</a></li></ul>
+    <ul><li><a href="step_2.html">Schritt 2 - chmod</a></li></ul>
+    <ul><li><a href="step_3.html">Schritt 3 - Setup</a></li></ul>
+    <ul><li><a href="step_4.html">Schritt 4 - Javascript</a></li></ul>
+    <h3>Extras</h3>
+    <ul><li><a href="handling.html">Bedienung</a></li></ul>
+    <ul><li><a href="counter.html">Counter</a></li></ul>
+    <ul><li><a href="sysinfo.html">Sysinfo</a></li></ul>
+    <ul><li><a href="opt-out.html">Opt Out</a></li></ul>
+    <ul><li><a class="current" href="plugins.html">Erweiterungen</a></li></ul>
+    <h3>Service</h3>
+    <ul><li><a href="faq.html">FAQ</a></li></ul>
+    <ul><li><a href="support.html">Support-Forum</a></li></ul>
+    <h3>Sonstiges</h3>
+    <ul><li><a href="license.html">Lizenz</a></li></ul>
+    </div>
+  </td>
+  <td class="content">
+    <div id="content">
+      <h3>Erweiterungen (Plugin-Pack)</h3><br>
+      <p>Die PHP Web Statistik ermöglicht seit der Version 5 nun auch die Einbindung von Plugins, also modularen Erweiterungen, die zusätzliche Funktionen für einen Benutzer zur Verfügung stellen.</p>
+      <p>Die Plugins können einfach und komfortabel in eine bestehende Installation der PHP Web Stat eingebunden werden. Dazu ist es erforderlich, eine Lizenz gegen eine einmalige Gebühr zu erwerben und damit die Plugins freizuschalten. Anhand der Emailadresse, die Sie beim Kauf der Lizenz hinterlegen, erhalten Sie die Freischaltung Ihrer persönlichen Plugin-Lizenz.</p>
+      <p>Eine Plugin-Lizenz orientiert sich immer an einer Emailadresse und einem Domainnamen. Sie können somit beliebig viele Installationen der Statistik (zusammen mit den Plugins) auf einer Domain vornehmen. Ob die installierte Statistik dann Besucher einer vollkommen anderen Domain aufzeichnet, ist unabhängig von der bei der Lizensierung übermittelten Domain.</p>
+      <p>Folgendes Beispiel soll dies näher erläutern:<br>
+      1. Installation auf http://example.com/stat1, Aufzeichnung der Domains example.com, example2.com, example3.com, etc.<br>
+      2. Installation auf http://example.com/stat2, Aufzeichnung der Domains visit1.com, visit2.com, visit3.com, etc.<br>
+      <p style="background: rgba(244, 238, 66, .4)"><b>Solange die Installation der Statistik auf der gleichen Domain erfolgt, ist die Lizenz gültig und ermöglicht die Nutzung der Plugins.</b></p>
+      <hr>
+      <p>Folgende Erweiterungen stehen derzeit (Stand 06/2018) zur Verfügung:</p>
+      <b><big>AutoUpdate Ländererkennung</big></b><br>
+      <p>Um zu ermöglichen, dass die PHP Web Statistik das Herkunftsland eines Besuchers automatisch erkennt, werden immer aktuelle Ländererkennungs-Muster benötigt. Diese werden auf der Webseite der PHP Web Stat monatlich kostenlos zur Verfügung gestellt.<br>Dieses Plugin prüft auf aktualisierte Ländererkennungs-Muster und installiert diese automatisch. Dazu ist kein Betreten der Statistik notwendig, die Erkennung von Updates und deren Installation werden im Hintergrund automatisch vorgenommen.</p>
+      <b><big>Zugriffe &amp; Besucher Charts</big></b><br>
+      <p>Das Plugin zeigt in zwei Kurvendiagrammen die Besucher und deren Seitenbesuche (Zugriffe), einmal der letzten 10 Tage und einmal der letzten 30 Tage.<br>Diese Ansicht ermöglicht dem Benutzer aktuelle Trends hinsichtlich der Anzahl der Besuche und der besuchten Seiten zu erkennen.</p>
+      <b><big>Letzte Zugriffe</big></b><br>
+      <p>Das Plugin ermöglicht eine Detailanalyse von Besuchern und ihren Seitenzugriffen. Dazu werden in einer tabellarischen Darstellung alle Seitenzugriffe mit den folgenden Details dargestellt:<br>
+      <ul>
+        <li>Datum & Uhrzeit</li>
+        <li>Herkunftsland</li>
+        <li>IP-Adresse (IPv4 und IPv6)</li>
+        <li>Betriebssystem und Version</li>
+        <li>Browser und Version</li>
+        <li>Bildschirmauflösung</li>
+        <li>Bildschirm-Farbtiefe</li>
+        <li>Besuchte Seite</li>
+        <li>Herkunftsseite</li>
+      </ul>
+      Der Benutzer kann tagesweise vor- und zurückgehen, um die Einträge eines Kalendertages im Detail zu analysieren. Ein eingebauter Kalender erlaubt den Sprung zu einem Wunschdatum. Zusätzlich können die Anzahl der anzuzeigenden Einträge festgelegt werden. Abgerundet wird das Plugin durch eine detaillierte Herkunfts-Erkennung der IP-Adresse des Besuchers über einen frei wählbaren GeoIP-Dienst.<br>Das Plugin kann an die Bedürfnisse des Benutzers mittels einer übersichtlichen Konfiguration angepasst werden.</p>
+      <b><big>Email-Bericht</big></b><br>
+      <p>Das Plugin erzeugt wöchentliche oder monatliche Berichte aus den aufgezeichneten Statistik-Daten und verschickt diese an frei wählbare Empfänger. Diese Berichte beinhalten die Gesamtzahl der Besucher seit dem Zeitpunkt der Aufzeichnung, die Anzahl Besucher des aktuellen Monats und des aktuellen Jahres.<br>Das Plugin kann an die Bedürfnisse des Benutzers mittels einer übersichtlichen Konfiguration angepasst werden.</p>
+      <b><big>Klick-Zähler</big></b><br>
+      <p>Das Plugin zeichnet die Klicks auf, die ein Besucher auf einen Link oder eine Datei macht und wertet diese Daten aus. Dabei erhält der Benutzer für jeden Klick eine individuelle Auswertung der Gesamtzahl und der täglichen Klicks.</p>
+      <b><big>Kuchendiagramme</big></b><br>
+      <p>Das Plugin erzeugt aus den Statistik-Daten vier Kuchendiagramme, die die Statistik-Module Browser, Betriebssystem, Bildschirmauflösung und Bildschirmfarbtiefe darstellen.</p>
+      <b><big>Zugriffe Monat &amp; Jahr</big></b><br>
+      <p>Das Plugin zeigt in zwei Kurvendiagrammen die Seitenbesuche (Zugriffe) der Benutzer, einmal der Monate und einmal der Jahre.<br>Diese Ansicht ermöglicht dem Benutzer die langfristigen Trends hinsichtlich der Anzahl der besuchten Seiten seit Installation der PHP Web Stat zu erkennen.</p>
+      <p><b><a style="background:rgba(244, 238, 66, .4); font-size:16px" href="https://www.php-web-statistik.de/downloads.php" target="new">Plugin-Pack Download</a></b></p>
+    </div>
+  </td>
+</tr>
+</table>
+
+
+
+</body>
+</html>

@@ -1,0 +1,81 @@
+/*! fonts include */
+@import url(https://fonts.googleapis.com/css?family=Playfair+Display:400,900);
+
+@font-face {
+  font-family: 'Glyphicons Halflings';
+  src: url('fonts/glyphicons-halflings-regular.eot');
+  src: url('fonts/glyphicons-halflings-regular.eot?#iefix') format('embedded-opentype'), url('fonts/glyphicons-halflings-regular.woff2') format('woff2'), url('fonts/glyphicons-halflings-regular.woff') format('woff'), url('fonts/glyphicons-halflings-regular.ttf') format('truetype'), url('fonts/glyphicons-halflings-regular.svg#glyphicons_halflingsregular') format('svg');
+}
+.glyphicon {
+  position: relative;
+  top: 1px;
+  display: inline-block;
+  font-family: 'Glyphicons Halflings';
+  font-style: normal;
+  font-weight: normal;
+  line-height: 1;
+
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.glyphicon-user:before {
+  content: "\e008"; }
+.glyphicon-lock:before {
+  content: "\e033"; }
+.glyphicon-log-in:before {
+  content: "\e161"; }
+.glyphicon-log-out:before {
+  content: "\e163"; }
+.glyphicon-th:before {
+  content: "\e011"; }
+.glyphicon-refresh:before {
+  content: "\e031"; }
+.glyphicon-info-sign:before {
+  content: "\e086"; }
+.glyphicon-download-alt:before {
+  content: "\e025"; }
+.glyphicon-download:before {
+  content: "\e026"; }
+.glyphicon-chevron-up:before {
+  content: "\e113"; }
+.glyphicon-tasks:before {
+  content: "\e137"; }
+.glyphicon-stats:before {
+  content: "\e185"; }
+.glyphicon-print:before {
+  content: "\e045"; }
+.glyphicon-ok:before {
+  content: "\e013"; }
+.glyphicon-ok-sign:before {
+  content: "\e084"; }
+.glyphicon-ok-circle:before {
+  content: "\e089"; }
+.glyphicon-remove:before {
+  content: "\e014"; }
+.glyphicon-remove-sign:before {
+  content: "\e083"; }
+.glyphicon-remove-circle:before {
+  content: "\e088"; }
+.glyphicon-save:before {
+  content: "\e166"; }
+.glyphicon-circle-arrow-right:before {
+  content: "\e131"; }
+.glyphicon-circle-arrow-left:before {
+  content: "\e132"; }
+.glyphicon-calendar:before {
+  content: "\e109"; }
+.glyphicon-floppy-disk:before {
+  content: "\e172"; }
+.glyphicon-folder-close:before {
+  content: "\e117"; }
+.glyphicon-cog:before {
+  content: "\e019"; }
+.glyphicon-check:before {
+  content: "\e067"; }
+.glyphicon-warning-sign:before {
+  content: "\e107"; }
+.glyphicon-envelope:before {
+  content: "\2709"; }
+.glyphicon-new-window:before {
+  content: "\e164"; }
+/*! /fonts include */
