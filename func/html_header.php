@@ -4,12 +4,12 @@
 ################################################################################
 # This file is part of php-web-stat.                                           #
 # Open-Source Statistic Software for Webmasters                                #
-# Script-Version:     5.1                                                      #
-# File-Release-Date:  19/06/11                                                 #
+# Script-Version:     5.3                                                      #
+# File-Release-Date:  21/01/01                                                 #
 # Official web site and latest version:    https://www.php-web-statistik.de    #
 #==============================================================================#
 # Authors: Holger Naves, Reimar Hoven                                          #
-# Copyright © 2019 by PHP Web Stat - All Rights Reserved.                      #
+# Copyright © 2021 by PHP Web Stat - All Rights Reserved.                      #
 ################################################################################
 error_reporting(0);
 //------------------------------------------------------------------------------
@@ -49,7 +49,7 @@ $html_header_in = '<!DOCTYPE html>
   <title>PHP Web Stat '.$version_number.$revision_number.'</title>
   <meta name="title" content="PHP Web Stat '.$version_number.$revision_number.'">
   <link rel="stylesheet" type="text/css" href="css/style.css">
-  <link rel="stylesheet" type="text/css" href="'.$theme.'style.css">
+  <link rel="stylesheet" type="text/css" href="'.$theme.'style.css?ver='.time().'">
   <link rel="stylesheet" type="text/css" href="css/print.css">
   <link rel="stylesheet" type="text/css" href="func/floatbox/floatbox.css">
   <link rel="shortcut icon" href="images/favicon.ico">
@@ -73,7 +73,7 @@ $html_header_co = '<!DOCTYPE html>
   <title>PHP Web Stat - Counter '.$version_number.'</title>
   <meta name="title" content="PHP Web Stat - Counter '.$version_number.'">
   <link rel="stylesheet" type="text/css" href="css/style.css">
-  <link rel="stylesheet" type="text/css" href="'.$theme.'counter.css">
+  <link rel="stylesheet" type="text/css" href="'.$theme.'counter.css?ver='.time().'">
   <link rel="shortcut icon" href="images/favicon.ico">
   <script src="js/ticker.js">
     /*
@@ -95,7 +95,7 @@ $html_header_ar = '<!DOCTYPE html>
   <title>PHP Web Stat Archive</title>
   <meta name="title" content="PHP Web Stat Archive">
   <link rel="stylesheet" type="text/css" href="css/style.css">
-  <link rel="stylesheet" type="text/css" href="'.$theme.'style.css">
+  <link rel="stylesheet" type="text/css" href="'.$theme.'style.css?ver='.time().'">
   <link rel="stylesheet" type="text/css" href="func/calendar/css/jscal2.css">
   <link rel="stylesheet" type="text/css" href="func/calendar/css/border-radius.css">
   <link rel="stylesheet" type="text/css" href="func/calendar/css/steel/steel.css">
@@ -122,7 +122,7 @@ $html_header_dv = '<!DOCTYPE html>
   <title>PHP Web Stat - Details</title>
   <meta name="title" content="PHP Web Stat">
   <link rel="stylesheet" type="text/css" href="css/style.css">
-  <link rel="stylesheet" type="text/css" href="'.$theme.'style.css">
+  <link rel="stylesheet" type="text/css" href="'.$theme.'style.css?ver='.time().'">
   <link rel="stylesheet" type="text/css" href="css/print.css">
   <style>
     body { margin:5px; }
@@ -141,7 +141,7 @@ $html_header_ck = '<!DOCTYPE html>
   <title>PHP Web Stat</title>
   <meta name="title" content="PHP Web Stat">
   <link rel="stylesheet" type="text/css" href="css/style.css">
-  <link rel="stylesheet" type="text/css" href="'.$theme.'style.css">
+  <link rel="stylesheet" type="text/css" href="'.$theme.'style.css?ver='.time().'">
   <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
   <!--[if lt IE 9]>
     <script src="js/html5shiv.js"></script>
@@ -159,7 +159,7 @@ $html_header_si = '<!DOCTYPE html>
   <title>PHP Web Stat - Sysinfo</title>
   <meta name="title" content="PHP Web Stat - Sysinfo">
   <link rel="stylesheet" type="text/css" href="css/style.css">
-  <link rel="stylesheet" type="text/css" href="'.$theme.'style.css">
+  <link rel="stylesheet" type="text/css" href="'.$theme.'style.css?ver='.time().'">
   <link rel="stylesheet" type="text/css" href="css/print.css">
   <link rel="stylesheet" type="text/css" href="func/floatbox/floatbox.css">
   <link rel="shortcut icon" href="images/favicon.ico">
@@ -178,7 +178,7 @@ $html_header_ad1 = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//E
   <meta http-equiv="pragma" content="no-cache" />
   <meta http-equiv="expires" content="0" />
   <link rel="stylesheet" type="text/css" href="../css/style.css" />
-  <link rel="stylesheet" type="text/css" href="../'.$theme.'style.css" />
+  <link rel="stylesheet" type="text/css" href="../'.$theme.'style.css?ver='.time().'" />
   <link rel="shortcut icon" href="images/favicon.ico" />
   <!--[if lt IE 7]>
    <script type="text/javascript" src="../js/unitpngfix.js"></script>
@@ -196,7 +196,7 @@ $html_header_ad2 = '<!DOCTYPE html>
   <title>PHP Web Stat - Cache Panel</title>
   <meta name="title" content="PHP Web Stat - Cache Panel">
   <link rel="stylesheet" type="text/css" href="../css/style.css">
-  <link rel="stylesheet" type="text/css" href="../'.$theme.'style.css">
+  <link rel="stylesheet" type="text/css" href="../'.$theme.'style.css?ver='.time().'">
   <link rel="shortcut icon" href="../images/favicon.ico">
   <style>
     body { margin:0px; }
@@ -215,7 +215,7 @@ $html_header_ad3 = '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//E
   <meta http-equiv="cache-control" content="no-cache">
   <meta http-equiv="pragma" content="no-cache">
   <meta http-equiv="expires" content="0">
-  <link rel="stylesheet" type="text/css" href="../'.$theme.'style.css" media="screen, projection">
+  <link rel="stylesheet" type="text/css" href="../'.$theme.'style.css?ver='.time().'">
   <style type="text/css">
     body { background: #808080 url(../images/admin/bg_transfer.gif) center center no-repeat; background-attachment:fixed; margin:0px; }
   </style>
