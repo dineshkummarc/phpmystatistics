@@ -4,12 +4,12 @@
 ################################################################################
 # This file is part of php-web-stat.                                           #
 # Open-Source Statistic Software for Webmasters                                #
-# Script-Version:     5.0                                                      #
-# File-Release-Date:  17/12/29                                                 #
+# Script-Version:     5.3                                                      #
+# File-Release-Date:  21/01/04                                                 #
 # Official web site and latest version:    https://www.php-web-statistik.de    #
 #==============================================================================#
 # Authors: Holger Naves, Reimar Hoven                                          #
-# Copyright © 2018 by PHP Web Stat - All Rights Reserved.                      #
+# Copyright © 2021 by PHP Web Stat - All Rights Reserved.                      #
 ################################################################################
 /*
 This program is free software; you can redistribute it and/or modify it under the
@@ -29,7 +29,7 @@ error_reporting(0);
 @ini_set ( "max_execution_time","false" ); // set the script time
 //------------------------------------------------------------------------------
 ### !!! never change this value !!! ###
-$version_number  = '2.8';
+$version_number  = '2.9';
 //------------------------------------------------------------------------------
 include ( 'config/config.php'           ); // include path to logfile
 if ( $db_active == 1 )
@@ -258,12 +258,14 @@ else
   // get the real first tracking timestamp
   $logfile_first_timestamp = fopen ( "log/logdb_backup.dta" , "r" ); // open logfile
   $logfile_real_first_timestamp = fgetcsv ( $logfile_first_timestamp , 60000 , "|" );
+  if ( !isset ( $logfile_real_first_timestamp [ 0 ] ) ) { $logfile_real_first_timestamp [ 0 ] = 0; }
   $real_first_timestamp = $logfile_real_first_timestamp [ 0 ];
 
   // if the first line in the logfile is empty, we take the second line
   if ( $real_first_timestamp == 0 )
    {
     $logfile_real_first_timestamp = fgetcsv ( $logfile_first_timestamp , 60000 , "|" );
+    if ( !isset ( $logfile_real_first_timestamp [ 0 ] ) ) { $logfile_real_first_timestamp [ 0 ] = 0; }
     $real_first_timestamp = $logfile_real_first_timestamp [ 0 ];
    }
 
@@ -277,6 +279,7 @@ else
       //--------------------------------
       $logfile_first_timestamp = fopen ( "log/logdb_backup.dta" , "r" ); // open logfile
       $logfile_entry_first_timestamp = fgetcsv ( $logfile_first_timestamp , 300 , "|" ); // read entry from logfile
+      if ( !isset ( $logfile_entry_first_timestamp [ 0 ] ) ) { $logfile_entry_first_timestamp [ 0 ] = 0; }
       $first_timestamp        = date ( $dateform1 , $logfile_entry_first_timestamp [ 0 ] );
       $first_timestamp_ticker = date ( $dateform2 , $logfile_entry_first_timestamp [ 0 ] );
       fclose ( $logfile_first_timestamp       ); // close logfile
@@ -326,7 +329,7 @@ else
    //----------------------------------------
    $logfile_entry = fgetcsv ( $logfile , 6000 , "|" ); // read entry from logfile
    //----------------------------------------
-   if ( ( trim ( $logfile_entry [ 0 ] ) != "" ) && ( $logfile_entry [ 0 ] >= date ( "U", strtotime ( "-".$online_recount_time." minutes" ) ) ) && ( !isset ( $visitor_online [ $logfile_entry [ 1 ] ] ) ) )
+   if ( ( isset ( $logfile_entry [ 0 ] ) ) && ( $logfile_entry [ 0 ] >= date ( "U", strtotime ( "-".$online_recount_time." minutes" ) ) ) && ( !isset ( $visitor_online [ $logfile_entry [ 1 ] ] ) ) )
     {
      if ( !isset ( $visitor_online [ $logfile_entry [ 1 ] ] ) ) { $visitor_online [ $logfile_entry [ 1 ] ] = 0; }
      $visitor_online [ $logfile_entry [ 1 ] ]++; // save the ip address
@@ -369,7 +372,7 @@ else
 // if there is no visitor last month
 $visitor_lastmonth_count = date ( "j" ) + 1;
 $visitor_lastmonth_count = "-".$visitor_lastmonth_count." days";
-if ( $visitor_month [ date ( "Y/m" , strtotime ( $visitor_lastmonth_count ) + $home_time ) ] )
+if ( isset ( $visitor_month [ date ( "Y/m" , strtotime ( $visitor_lastmonth_count ) + $home_time ) ] ) )
  {
   $visitor_lastmonth = $visitor_month [ date ( "Y/m" , strtotime ( $visitor_lastmonth_count ) + $home_time ) ];
  }
@@ -385,7 +388,9 @@ if ( $visitor_month [ date ( "Y/m" , time ( ) + $home_time ) ] == "" ) { $visito
 // last cache update time
 //------------------------------------------------------------------------------
 $cache_update_time = file ( "log/timestamp_cache_update.dta" );
-$cache_update_time[0] = $cache_update_time[0] + $home_time;
+if ( isset ( $cache_update_time[0] ) ) { $cache_update_time[0] = $cache_update_time[0] + $home_time; }
+else { $cache_update_time[0] = $home_time; }
+
 if ( date ( "d.m.Y" , $cache_update_time[0] ) == date ( "d.m.Y", time () + $home_time ) ) { $last_cache_update = strftime ( "%H:%M ".$lang_counter[11], $cache_update_time[0] ); }
 else { $last_cache_update = strftime ( "%d.%m.%y - %H:%M ".$lang_counter[11], $cache_update_time[0] ); }
 //------------------------------------------------------------------------------
@@ -420,7 +425,12 @@ if ( $db_active == 1 )
  }
 else
  {
-  $pageimpression = file_row_size_big ( "log/logdb_backup.dta" );
+  #$pageimpression = file_row_size_big ( "log/logdb_backup.dta" );
+  $logfile = "log/logdb_backup.dta";
+  if ( filesize ( $logfile ) != 0 )
+   { $pageimpression = file_row_size_big ( "log/logdb_backup.dta" ); }
+  else
+   { $pageimpression = 0; }
  }
 //------------------------------------------------------------------------------
 // function month trend
@@ -429,17 +439,37 @@ $average_visitors_this_month = (int) round ( $visitor_month [ date ( "Y/m" ) ] /
 $visitor_lastmonth_count = date ( "j" );
 $visitor_lastmonth_count = "-".$visitor_lastmonth_count." days";
 
-$visitors_last_month = $visitor_month [ date ( "Y/m" , strtotime ( $visitor_lastmonth_count ) + $home_time ) ];
-$number_of_days_last_month = date ( "t" , strtotime ( $visitor_lastmonth_count ) + $home_time );
-$average_visitors_last_month = (int) round ( $visitors_last_month / date ( "t" , strtotime ( $visitor_lastmonth_count ) + $home_time ) );
-
-if ( $average_visitors_this_month >= $average_visitors_last_month )
+if ( isset ( $visitor_month [ date ( "Y/m" , strtotime ( $visitor_lastmonth_count ) + $home_time ) ] ) )
  {
-  $month_trend = '<img src="images/counter_trend_up.png" style="vertical-align:bottom" alt=""> +'.(int) round ( ( ( $average_visitors_this_month - $average_visitors_last_month) / $average_visitors_last_month ) *100 ).'%';
+  $visitors_last_month = $visitor_month [ date ( "Y/m" , strtotime ( $visitor_lastmonth_count ) + $home_time ) ];
  }
 else
  {
-  $month_trend = '<img src="images/counter_trend_down.png" style="vertical-align:bottom" alt=""> '.(int) round ( ( ( $average_visitors_this_month - $average_visitors_last_month) / $average_visitors_last_month ) *100 ).'%';
+  $visitors_last_month = 0;
+ }
+
+$number_of_days_last_month = date ( "t" , strtotime ( $visitor_lastmonth_count ) + $home_time );
+$average_visitors_last_month = (int) round ( $visitors_last_month / date ( "t" , strtotime ( $visitor_lastmonth_count ) + $home_time ) );
+
+if ( ( $average_visitors_last_month == 0 ) && ( $average_visitors_this_month == 0 ) )
+ {
+  $month_trend = "n/a";
+ }
+else
+ {
+  if ( $average_visitors_last_month > 0 )
+   {
+    if ( $average_visitors_this_month >= $average_visitors_last_month )
+     {
+      $month_trend = '<img src="images/counter_trend_up.png" style="vertical-align:bottom" alt=""> +'.(int) round ( ( ( $average_visitors_this_month - $average_visitors_last_month) / $average_visitors_last_month ) *100 ).'%';
+     }
+    else
+     {
+      $month_trend = '<img src="images/counter_trend_down.png" style="vertical-align:bottom" alt=""> -'.(int) round ( ( ( $average_visitors_this_month - $average_visitors_last_month) / $average_visitors_last_month ) *100 ).'%';
+     }
+   }
+  else
+   { $month_trend = '<img src="images/counter_trend_up.png" style="vertical-align:bottom" alt="">'; }
  }
 //------------------------------------------------------------------------------
 // make footer content
