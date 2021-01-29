@@ -4,12 +4,12 @@
 ################################################################################
 # This file is part of php-web-stat.                                           #
 # Open-Source Statistic Software for Webmasters                                #
-# Script-Version:     5.0                                                      #
-# File-Release-Date:  18/06/04                                                 #
+# Script-Version:     5.3                                                      #
+# File-Release-Date:  20/07/05                                                 #
 # Official web site and latest version:    https://www.php-web-statistik.de    #
 #==============================================================================#
 # Authors: Holger Naves, Reimar Hoven                                          #
-# Copyright © 2018 by PHP Web Stat - All Rights Reserved.                      #
+# Copyright © 2020 by PHP Web Stat - All Rights Reserved.                      #
 ################################################################################
 
 //------------------------------------------------------------------------------
@@ -175,8 +175,7 @@ if ( ( isset ( $_GET ['action'] ) ) && ( $_GET ['action'] == 'opt-out' ) )
  }
 else
  {
-  //------------------------------------------------------------------------------
-  if ( ( $loginpassword_ask == 1 ) && ( $_SESSION ['loggedin'] != 'admin' ) )
+  if ( $_SESSION ['loggedin'] != 'admin' )
    {
     if ( $clientpassword == "" )
      {
