@@ -4,12 +4,12 @@
 ################################################################################
 # This file is part of php-web-stat.                                           #
 # Open-Source Statistic Software for Webmasters                                #
-# Script-Version:     5.0                                                      #
-# File-Release-Date:  18/05/21                                                 #
+# Script-Version:     5.3                                                      #
+# File-Release-Date:  21/01/01                                                 #
 # Official web site and latest version:    http://www.php-web-statistik.de     #
 #==============================================================================#
 # Authors: Holger Naves, Reimar Hoven                                          #
-# Copyright © 2018 by PHP Web Stat - All Rights Reserved.                      #
+# Copyright © 2021 by PHP Web Stat - All Rights Reserved.                      #
 ################################################################################
 
 //------------------------------------------------------------------------------
@@ -27,7 +27,6 @@ else
   else { $loggedin = 1; }
  }
 //------------------------------------------------------------------------------
-#@set_time_limit(0);
 @ini_set ( "max_execution_time","false"      ); // set the script time
 //------------------------------------------------------------------------------
 include ( 'config/config.php'                ); // include path to logfile
@@ -439,18 +438,18 @@ else
   $loader_counter_now = 0; // set the amount of lines read to zero
 
   $logfile = fopen ( $logfile_choosed , "rb" ); // open logfile
-  @fseek ( $logfile , $cache_memory_address );
+  @fseek ( $logfile , (int) $cache_memory_address );
   while ( !FEOF ( $logfile ) && ( $loader_counter_now <= $creator_number ) ) // as long as there are entries
    {
     //------------------------------------------------------------------
     $logfile_entry = fgetcsv ( $logfile , 60000 , "|" ); // read entry from logfile
 
-    if ( ( trim ( $logfile_entry [ 0 ] ) != "" ) && ( trim ( $logfile_entry [ 0 ] ) >= trim ( $until_timestamp ) ) )
+    if ( ( isset ( $logfile_entry [ 0 ] ) ) && ( trim ( $logfile_entry [ 0 ] ) >= trim ( $until_timestamp ) ) )
      {
       $loader_finished = 1;
      }
 
-    if ( ( trim ( $logfile_entry [ 0 ] ) != "" ) && ( $logfile_entry [ 0 ] > $cache_time_stamp ) && ( $loader_counter_now <= $creator_number ) && ( $logfile_entry [ 0 ] >= $from_timestamp ) && ( $logfile_entry [ 0 ] <= $until_timestamp ) )
+    if ( ( isset ( $logfile_entry [ 0 ] ) ) && ( $logfile_entry [ 0 ] > $cache_time_stamp ) && ( $loader_counter_now <= $creator_number ) && ( $logfile_entry [ 0 ] >= $from_timestamp ) && ( $logfile_entry [ 0 ] <= $until_timestamp ) )
      {
       //------------------------------------------------------------------
       $loader_counter_now++;                               // increase the amount of lines count
@@ -690,7 +689,10 @@ else
 if ( $db_active == 1 )
  {
   //------------------------------
-  if ( ( $last_logfile_entry == $loader_finished_temp ) || ( $cache_time_stamp == $loader_finished_temp ) || ( trim ( $result[$x][0] ) == $loader_finished_temp ) )
+  if ( !isset ( $cache_time_stamp ) ) { $cache_time_stamp = 0; }
+  //------------------------------
+  if ( isset ( $result[$x][0] ) ) { $entry1 = $result[$x][0]; } else { $entry1 = 999; }
+  if ( ( $last_logfile_entry == $loader_finished_temp ) || ( $cache_time_stamp == $loader_finished_temp ) || ( $entry1 == $loader_finished_temp ) )
    {
     $loader_finished = 1;
    }
@@ -699,7 +701,10 @@ if ( $db_active == 1 )
 else
  {
   //------------------------------
-  if ( ( $last_logfile_entry == $loader_finished_temp ) || ( $cache_time_stamp == $loader_finished_temp ) || ( trim ( $logfile_entry [ 0 ] ) == $loader_finished_temp ) )
+  if ( !isset ( $cache_time_stamp ) ) { $cache_time_stamp = 0; }
+  //------------------------------
+  if ( isset ( $logfile_entry [ 0 ] ) ) { $entry1 = $logfile_entry [ 0 ]; } else { $entry1 = 999; }
+  if ( ( $last_logfile_entry == $loader_finished_temp ) || ( $cache_time_stamp == $loader_finished_temp ) || ( $entry1 == $loader_finished_temp ) )
    {
     $loader_finished = 1;
    }
@@ -1076,7 +1081,7 @@ if ( ( isset ( $loader_finished ) ) && ( $loader_finished == 1 ) )
        while ( !FEOF ( $log_file ) )
          {
           $logfile_entry = fgetcsv ( $log_file , 60000 , "|" );   // read entry from logfile
-          if ( ( $logfile_entry [ 0 ] != "" ) &&  ( $logfile_entry [ 0 ] >= strtotime ("-2 days" ) ) )
+          if ( ( isset ( $logfile_entry [ 0 ] ) ) &&  ( $logfile_entry [ 0 ] >= strtotime ("-2 days" ) ) )
            {
             fwrite ( $log_file_temp , $logfile_entry [ 0 ]."|".$logfile_entry [ 1 ]."|".$logfile_entry [ 2 ]."|".$logfile_entry [ 3 ]."|".$logfile_entry [ 4 ]."|".$logfile_entry [ 5 ]."|".$logfile_entry [ 6 ]."|".$logfile_entry [ 7 ]."|".$logfile_entry [ 8 ]."\n" );
            }
@@ -1105,7 +1110,6 @@ if ( ( isset ( $loader_finished ) ) && ( $loader_finished == 1 ) )
       unset  ( $cache_timestamp_file );
       //------------------------------------------------------------------
       echo '<script language="javascript"> top.location.replace(\'index.php?parameter=finished\'); </script>';
-      #echo '<script language="javascript"> setTimeout(function(){top.location.replace(\'index.php?parameter=finished\')},2000);</script>';
       //------------------------------------------------------------------
      }
     //------------------------------------------------------------------
