@@ -4,12 +4,12 @@
 ################################################################################
 # This file is part of php-web-stat.                                           #
 # Open-Source Statistic Software for Webmasters                                #
-# Script-Version:     5.1                                                      #
-# File-Release-Date:  19/08/05                                                 #
+# Script-Version:     5.3                                                      #
+# File-Release-Date:  20/05/27                                                 #
 # Official web site and latest version:    https://www.php-web-statistik.de    #
 #==============================================================================#
 # Authors: Holger Naves, Reimar Hoven                                          #
-# Copyright © 2019 by PHP Web Stat - All Rights Reserved.                      #
+# Copyright © 2020 by PHP Web Stat - All Rights Reserved.                      #
 ################################################################################
 
 //------------------------------------------------------------------------------
@@ -82,6 +82,19 @@ function display ( $title , &$title2 , &$hits , &$bar , &$module_data , $width ,
  {
   include ( "config/config.php" ); // include path to logfile
   include ( $language           ); // include language vars
+  //----------------------------------------------------------------------------
+  // weekday locale string
+      if ( $language == "language/german.php"     ) { $locale = "de_DE.utf-8"; }
+  elseif ( $language == "language/english.php"    ) { $locale = "en_US.utf-8"; }
+  elseif ( $language == "language/dutch.php"      ) { $locale = "nl_NL.utf-8"; }
+  elseif ( $language == "language/italian.php"    ) { $locale = "it_IT.utf-8"; }
+  elseif ( $language == "language/spanish.php"    ) { $locale = "es_ES.utf-8"; }
+  elseif ( $language == "language/danish.php"     ) { $locale = "da_DK.utf-8"; }
+  elseif ( $language == "language/finnish.php"    ) { $locale = "fi_FI.utf-8"; }
+  elseif ( $language == "language/french.php"     ) { $locale = "fr_FR.utf-8"; }
+  elseif ( $language == "language/turkish.php"    ) { $locale = "tr_TR.utf-8"; }
+  elseif ( $language == "language/portuguese.php" ) { $locale = "pt_PT.utf-8"; }
+    else { $locale = "en_US.utf-8"; }
   //----------------------------------------------------------------------------
   $count_all   = count ( $module_data ); // amount of array lines
   if ( $year_sort == 1 ) { krsort ( $module_data ); } // desc sort for years module
@@ -192,19 +205,16 @@ function display ( $title , &$title2 , &$hits , &$bar , &$module_data , $width ,
       // if visitor_day module, delete the year and add weekday
       if ( $value_change == 1 )
        {
-        if ( $language == "language/german.php" )
-         {
-          setlocale(LC_TIME, "de_DE.utf8");
-          $weekday = strftime( "%a", strtotime ( substr($key,3,2)."/".substr($key,6,2)."/".date("Y") ) );
-         }
-        else
-         {
-          setlocale(LC_TIME, "en_US.utf8");
-          $weekday = strftime( "%a", strtotime ( substr($key,3,2)."/".substr($key,6,2)."/".date("Y") ) );
-         }
+        setlocale ( LC_TIME, $locale );
+        $weekday = ucwords ( strftime( "%a", strtotime ( substr($key,3,2)."/".substr($key,6,2)."/".date("Y") ) ) );
 
-        if ( $weekday == "Sa" || $weekday == "Sat" ) { $weekday = "<span class=\"display_weekday_6_style\">".$weekday."</span>"; }
-        if ( $weekday == "So" || $weekday == "Sun" ) { $weekday = "<span class=\"display_weekday_7_style\">".$weekday."</span>"; }
+        $saturday = array('Sa','Sat','Za','Sab','Sáb','Lør','Sam.','Cts');
+        $sunday   = array('So','Sun','Zo','Dom','Søn','Dim.','Paz');
+
+        if ( in_array ( $weekday, $saturday ) )
+         { $weekday = "<span class=\"display_weekday_6_style\">".$weekday."</span>"; }
+        if ( in_array ( $weekday, $sunday ) )
+         { $weekday = "<span class=\"display_weekday_7_style\">".$weekday."</span>"; }
 
         $key = substr ( $key , 3 ).", ".$weekday;
        }
