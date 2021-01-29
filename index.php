@@ -4,12 +4,12 @@
 ################################################################################
 # This file is part of php-web-stat.                                           #
 # Open-Source Statistic Software for Webmasters                                #
-# Script-Version:     5.1                                                      #
-# File-Release-Date:  19/06/13                                                 #
+# Script-Version:     5.3                                                      #
+# File-Release-Date:  21/01/01                                                 #
 # Official web site and latest version:    https://www.php-web-statistik.de    #
 #==============================================================================#
 # Authors: Holger Naves, Reimar Hoven                                          #
-# Copyright © 2019 by PHP Web Stat - All Rights Reserved.                      #
+# Copyright © 2021 by PHP Web Stat - All Rights Reserved.                      #
 ################################################################################
 /*
 This program is free software; you can redistribute it and/or modify it under the
@@ -30,9 +30,9 @@ Floor, Boston, MA 02110, USA
 @ini_set ( 'max_execution_time', 'false' ); // set the script time
 //------------------------------------------------------------------------------
 ##### !!! never change this value !!! #####
-$version_number  = '5.1';
+$version_number  = '5.3';
 $revision_number = '.00';
-$last_edit       = '2019';
+$last_edit       = '2021';
 //------------------------------------------------------------------------------
 // set opcache to disabled
 @ini_set ( 'opcache.enable', 0 );
@@ -69,7 +69,7 @@ include ( 'func/func_last_logins.php'        ); // include last login log functi
 include ( 'func/func_crypt.php'              ); // include password comparison function
 include ( 'func/func_load_plugins.php'       ); // include plugins
 //------------------------------------------------------------------------------
-//check date form
+// check date form
     if ( $language == 'language/german.php' ) { $dateform = 'd.m.Y'; $dateform1 = 'd.m.y'; }
 elseif ( $language == 'language/french.php' ) { $dateform = 'd.m.Y'; $dateform1 = 'd.m.y'; }
   else { $dateform = 'Y/m/d'; $dateform1 = 'y/m/d'; }
@@ -101,7 +101,7 @@ if ( isset ( $_GET [ 'parameter' ] ) && ( $_GET [ 'parameter' ] == 'autologout' 
    <title>PHP Web Stat '.$version_number.$revision_number.'</title>
    <meta name="title" content="PHP Web Stat '.$version_number.$revision_number.'">
    <link rel="stylesheet" type="text/css" href="css/style.css">
-   <link rel="stylesheet" type="text/css" href="'.$theme.'style.css">
+   <link rel="stylesheet" type="text/css" href="'.$theme.'style.css?ver='.time().'">
    <link rel="shortcut icon" href="images/favicon.ico">
    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
    <!--[if lt IE 9]>
@@ -157,7 +157,7 @@ if ( ( $loginpassword_ask == 1 ) && ( $_SESSION [ 'hidden_stat' ] != md5_file ( 
      <title>PHP Web Stat '.$version_number.$revision_number.'</title>
      <meta name="title" content="PHP Web Stat '.$version_number.$revision_number.'">
      <link rel="stylesheet" type="text/css" href="css/style.css">
-     <link rel="stylesheet" type="text/css" href="'.$theme.'style.css">
+     <link rel="stylesheet" type="text/css" href="'.$theme.'style.css?ver='.time().'">
      <link rel="shortcut icon" href="images/favicon.ico">
      <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
      <!--[if lt IE 9]>
@@ -413,13 +413,19 @@ else
   // get the real first tracking timestamp
   $logfile_first_timestamp = fopen ( "log/logdb_backup.dta" , "r" ); // open logfile
   $logfile_real_first_timestamp = fgetcsv ( $logfile_first_timestamp , 60000 , "|" );
-  $real_first_timestamp = $logfile_real_first_timestamp [ 0 ];
+  if ( isset ( $logfile_real_first_timestamp [ 0 ] ) )
+   { $real_first_timestamp = $logfile_real_first_timestamp [ 0 ]; }
+  else
+   { $real_first_timestamp = 0; }
 
   // if the first line in the logfile is empty, we take the second line
   if ( $real_first_timestamp == 0 )
    {
     $logfile_real_first_timestamp = fgetcsv ( $logfile_first_timestamp , 60000 , "|" );
-    $real_first_timestamp = $logfile_real_first_timestamp [ 0 ];
+    if ( isset ( $logfile_real_first_timestamp [ 0 ] ) )
+     { $real_first_timestamp = $logfile_real_first_timestamp [ 0 ]; }
+    else
+     { $real_first_timestamp = 0; }
    }
 
   fclose ( $logfile_first_timestamp ); // close logfile
@@ -432,7 +438,10 @@ else
       //--------------------------------
       $logfile_first_timestamp = fopen ( "log/logdb_backup.dta" , "r" ); // open logfile
       $logfile_entry_first_timestamp = fgetcsv ( $logfile_first_timestamp , 60000 , "|" ); // read entry from logfile
-      $first_timestamp = date ( $dateform , $logfile_entry_first_timestamp [ 0 ] );
+      if ( isset ($logfile_entry_first_timestamp [ 0 ] ) )
+       { $first_timestamp = date ( $dateform , $logfile_entry_first_timestamp [ 0 ] ); }
+      else
+       { $first_timestamp = 0; }
 
       fclose ( $logfile_first_timestamp       ); // close logfile
       unset  ( $logfile_first_timestamp       );
@@ -451,7 +460,11 @@ else
     //--------------------------------
     $logfile_first_timestamp = fopen ( "log/logdb_backup.dta" , "r" ); // open logfile
     $logfile_entry_first_timestamp = fgetcsv ( $logfile_first_timestamp , 60000 , "|" ); // read entry from logfile
-    $first_timestamp = date ( $dateform , $logfile_entry_first_timestamp [ 0 ] );
+    if ( isset ($logfile_entry_first_timestamp [ 0 ] ) )
+     { $first_timestamp = date ( $dateform , $logfile_entry_first_timestamp [ 0 ] ); }
+    else
+     { $first_timestamp = 0; }
+
     fclose ( $logfile_first_timestamp       ); // close logfile
     unset  ( $logfile_first_timestamp       );
     unset  ( $logfile_entry_first_timestamp );
@@ -508,11 +521,16 @@ if ( ( $show_detailed_os == 0 ) && ( $operating_system ) )
       if ( !isset ( $operating_system_simple [ $temp_os_trim ] ) ) { $operating_system_simple [ $temp_os_trim ] = 0; }
       $operating_system_simple [ $temp_os_trim ] += $value;
      }
-    else
+    elseif ( strpos ( $key , " " ) > 0 )
      {
       $temp_os_trim = trim ( substr ( $key , 0 , strrpos ( $key , " " ) ) );
       if ( !isset ( $operating_system_simple [ $temp_os_trim ] ) ) { $operating_system_simple [ $temp_os_trim ] = 0; }
       $operating_system_simple [ $temp_os_trim ] += $value;
+     }
+    else
+     {
+      if ( !isset ( $operating_system_simple [ $key ] ) ) { $operating_system_simple [ $key ] = 0; }
+      $operating_system_simple [ $key ] += $value;
      }
    }
   $operating_system = $operating_system_simple;
@@ -680,7 +698,7 @@ else
        }
       echo '
       <button type="submit" class="align-right btn" style="margin-top:8px" onclick="location.href=\'index.php?parameter=logout\';"><span class="glyphicon glyphicon-log-out"></span> '.$lang_menue[7].'</button>
-      <a href="#" class="navbar-toggle align-right" style="margin-left:30px; outline:0"><span class="glyphicon glyphicon-th" style="font-size:22px; line-height:46px"></span></a>
+      <a href="javascript:return false" class="navbar-toggle align-right" style="margin-left:30px; outline:0"><span class="glyphicon glyphicon-th" style="font-size:22px; line-height:46px"></span></a>
       <div id="navbar" class="popover">
         <div class="arrow"></div>
         <div id="popover-index">
@@ -1059,7 +1077,7 @@ if ( $display_show_year != 0 )
 //--------------------------------
 echo '
 </div> <!-- /right col -->
-<div style="text-align:center">
+<div class="clearfix" style="text-align:center">
 ';
   //--------------------------------
   if ( !isset ( $visitor_day ) ) { $visitor_day = null; }
@@ -1120,7 +1138,6 @@ echo '
   //--------------------------------
   echo '
 </div> <!-- /center col -->
-<div class="clearfix"></div>
 ';
 ################################################################################
 ### tab user data ###
@@ -1142,7 +1159,7 @@ echo '
 <div style="width:'.$display_width_browser.'px; float:left">
 ';
 //--------------------------------
-if ( !isset ( $browser ) ) { $browser = null; }
+if ( !isset ( $browser ) ) { $browser = array(); }
 if ( ( $display_show_browser != 0 ) && ( count ( $browser ) >= 1 ) )
  {
   //--------------------------------
@@ -1154,7 +1171,7 @@ if ( ( $display_show_browser != 0 ) && ( count ( $browser ) >= 1 ) )
   //--------------------------------
  }
 //--------------------------------
-if ( !isset ( $operating_system ) ) { $operating_system = null; }
+if ( !isset ( $operating_system ) ) { $operating_system = array(); }
 if ( ( $display_show_os != 0 ) && ( count ( $operating_system ) >= 1 ) )
  {
   //--------------------------------
@@ -1170,7 +1187,7 @@ echo '
 <div style="width:'.$display_width_resolution.'px; float:right">
 ';
 //--------------------------------
-if ( !isset ( $resolution ) ) { $resolution = null; }
+if ( !isset ( $resolution ) ) { $resolution = array(); }
 if ( ( $display_show_resolution != 0 ) && ( count ( $resolution ) >= 1 ) )
  {
   //--------------------------------
@@ -1182,7 +1199,7 @@ if ( ( $display_show_resolution != 0 ) && ( count ( $resolution ) >= 1 ) )
   //--------------------------------
  }
 //--------------------------------
-if ( !isset ( $color_depth ) ) { $color_depth = null; }
+if ( !isset ( $color_depth ) ) { $color_depth = array(); }
 if ( ( $display_show_colordepth != 0 ) && ( count ( $color_depth ) >= 1 ) )
  {
   //--------------------------------
@@ -1194,7 +1211,7 @@ if ( ( $display_show_colordepth != 0 ) && ( count ( $color_depth ) >= 1 ) )
   //--------------------------------
  }
 //--------------------------------
-if ( !isset ( $javascript_status ) ) { $javascript_status = null; }
+if ( !isset ( $javascript_status ) ) { $javascript_status = array(); }
 if ( ( $display_show_javascript_status != 0 ) && ( count ( $javascript_status ) >= 1 ) )
  {
   //--------------------------------
@@ -1224,7 +1241,7 @@ else
 
 echo '<div style="text-align:center">';
 //--------------------------------
-if ( !isset ( $site_name ) ) { $site_name = null; }
+if ( !isset ( $site_name ) ) { $site_name = array(); }
 if ( ( $display_show_site != 0 ) && ( count ( $site_name ) >= 1 ) )
  {
   $temp_site_name_array = array ();
@@ -1246,7 +1263,7 @@ if ( ( $display_show_site != 0 ) && ( count ( $site_name ) >= 1 ) )
   unset ( $max_value   );
  }
 //--------------------------------
-if ( !isset ( $entrysite ) ) { $entrysite = null; }
+if ( !isset ( $entrysite ) ) { $entrysite = array(); }
 if ( ( $display_show_entrysite != 0 ) && ( count ( $entrysite ) >= 1 ) )
  {
   $temp_entrysite_array = array ();
@@ -1286,7 +1303,7 @@ else
 
 echo '<div style="text-align:center">';
 //--------------------------------
-if ( !isset ( $referer ) ) { $referer = null; }
+if ( !isset ( $referer ) ) { $referer = array(); }
 if ( ( $display_show_referer != 0 ) && ( count ( $referer ) >= 1 ) )
  {
   $max_value = array_sum ( $referer );
@@ -1314,7 +1331,7 @@ else
 
 echo '<div style="width:'.$display_count_searchengines.'px; float:left">';
 //--------------------------------
-if ( !isset ( $searchengines_archive ) ) { $searchengines_archive = null; }
+if ( !isset ( $searchengines_archive ) ) { $searchengines_archive = array(); }
 if ( ( $display_show_searchengines != 0 ) && ( count ( $searchengines_archive ) >= 1 ) )
  {
   $max_value = array_sum ( $searchengines_archive );
@@ -1328,7 +1345,7 @@ echo '
 <div style="width:'.$display_width_searchwords.'px; float:right">
 ';
 //--------------------------------
-if ( !isset ( $searchwords_archive ) ) { $searchwords_archive = null; }
+if ( !isset ( $searchwords_archive ) ) { $searchwords_archive = array(); }
 if ( ( $display_show_searchwords != 0 ) && ( count ( $searchwords_archive ) >= 1 ) )
  {
   $max_value = array_sum ( $searchwords_archive );
@@ -1357,7 +1374,7 @@ else
 
 echo '<div style="text-align:center">';
 //--------------------------------
-if ( !isset ( $country ) ) { $country = null; }
+if ( !isset ( $country ) ) { $country = array(); }
 if ( ( $display_show_cc != 0 ) && ( count ( $country ) >= 1 ) )
  {
   $country_full = array ();
@@ -1397,10 +1414,9 @@ else
 if ( $db_active == 1 )
  {
   echo '
-  <div id="footer">
+  <div id="footer" class="clearfix">
     <div style="width:240px; float:right; padding-top:10px; text-align:center"><a href="https://validator.w3.org/check?uri=referer" target="_blank"><img src="images/w3c-html5.gif" style="vertical-align:middle; width:80px; height:15px" alt="Valid HTML 5" title="Valid HTML 5"></a> &nbsp; <a href="https://jigsaw.w3.org/css-validator/validator?uri='.$script_domain.'/'.$script_path.''.$theme.'style.css" target="_blank"><img src="images/w3c-css.gif" style="vertical-align:middle; width:80px; height:15px" alt="Valid CSS!" title="Valid CSS!"></a></div>
     <div style="text-align:center; padding-top:3px">Copyright &copy; '.$last_edit.' <a href="https://www.php-web-statistik.de" target="_blank">PHP Web Stat</a> &nbsp;<b>&middot;</b>&nbsp; '.$lang_footer[1].' '.timer_stop($timer_start).' '.$lang_footer[2].'.<br><span style="font-size:9px">This product includes IP2Location LITE data available from <a href="https://lite.ip2location.com">https://lite.ip2location.com</a>.</span></div>
-    <div class="clearfix"></div>
   </div>'."\n";
  }
 else
@@ -1408,20 +1424,18 @@ else
   if ( ( isset ( $_GET [ 'archive' ] ) ) || ( isset ( $_GET [ 'archive_save' ] ) ) )
    {
     echo '
-    <div id="footer">
+    <div id="footer" class="clearfix">
       <div style="width:240px; float:right; padding-top:10px; text-align:center"><a href="https://validator.w3.org/check?uri=referer" target="_blank"><img src="images/w3c-html5.gif" style="vertical-align:middle; width:80px; height:15px" alt="Valid HTML 5" title="Valid HTML 5"></a> &nbsp; <a href="https://jigsaw.w3.org/css-validator/validator?uri='.$script_domain.'/'.$script_path.''.$theme.'style.css" target="_blank"><img src="images/w3c-css.gif" style="vertical-align:middle; width:80px; height:15px" alt="Valid CSS!" title="Valid CSS!"></a></div>
       <div style="text-align:center; padding-top:3px">Copyright &copy; '.$last_edit.' <a href="https://www.php-web-statistik.de" target="_blank">PHP Web Stat</a> &nbsp;<b>&middot;</b>&nbsp; '.$lang_footer[1].' '.timer_stop($timer_start).' '.$lang_footer[2].'.<br><span style="font-size:9px">This product includes IP2Location LITE data available from <a href="https://lite.ip2location.com">https://lite.ip2location.com</a>.</span></div>
-      <div class="clearfix"></div>
     </div>'."\n";
    }
   else
    {
     echo '
-    <div id="footer">
+    <div id="footer" class="clearfix">
       <div style="width:140px; float:left; padding-top:11px; text-align:center"><iframe name="make_index" src="func/func_create_index.php" style="width:81px; height:16px; padding:1px; margin:0; border:1px solid #666"></iframe></div>
       <div style="width:240px; float:right; padding-top:10px; text-align:center"><a href="https://validator.w3.org/check?uri=referer" target="_blank"><img src="images/w3c-html5.gif" style="vertical-align:middle; width:80px; height:15px" alt="Valid HTML 5" title="Valid HTML 5"></a> &nbsp; <a href="https://jigsaw.w3.org/css-validator/validator?uri='.$script_domain.'/'.$script_path.''.$theme.'style.css" target="_blank"><img src="images/w3c-css.gif" style="vertical-align:middle; width:80px; height:15px" alt="Valid CSS!" title="Valid CSS!"></a></div>
       <div style="text-align:center; padding-top:3px">Copyright &copy; '.$last_edit.' <a href="https://www.php-web-statistik.de" target="_blank">PHP Web Stat</a> &nbsp;<b>&middot;</b>&nbsp; '.$lang_footer[1].' '.timer_stop($timer_start).' '.$lang_footer[2].'.<br><span style="font-size:9px">This product includes IP2Location LITE data available from <a href="https://lite.ip2location.com">https://lite.ip2location.com</a>.</span></div>
-      <div class="clearfix"></div>
     </div>'."\n";
    }
  }
