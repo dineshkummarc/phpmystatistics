@@ -4,12 +4,12 @@
 ################################################################################
 # This file is part of php-web-stat.                                           #
 # Open-Source Statistic Software for Webmasters                                #
-# Script-Version:     5.0                                                      #
-# File-Release-Date:  17/09/30                                                 #
+# Script-Version:     5.3                                                      #
+# File-Release-Date:  21/01/01                                                 #
 # Official web site and latest version:    http://www.php-web-statistik.de     #
 #==============================================================================#
 # Authors: Holger Naves, Reimar Hoven                                          #
-# Copyright © 2018 by PHP Web Stat - All Rights Reserved.                      #
+# Copyright © 2021 by PHP Web Stat - All Rights Reserved.                      #
 ################################################################################
 
 //------------------------------------------------------------------------------
@@ -20,6 +20,8 @@ function pattern_reverse ( $value )
     //------------------------------
     $query  = "SELECT * FROM ".$value;
     $result = db_query ( $query , 1 , 0 );
+    //------------------------------
+    $temp_array = null;
     //------------------------------
     for ( $x = 0 ; $x < count ( $result ); $x++ )
      {
@@ -34,13 +36,15 @@ function pattern_reverse ( $value )
     //------------------------------
     $pattern_file = fopen ( $value , "r" );
     //------------------------------
+    $temp_array = null;
+    //------------------------------
     while ( !FEOF ( $pattern_file ) )
      {
       $pattern_file_entry = fgetcsv ( $pattern_file , 60000 , "|" );
-       if ( count ( $pattern_file_entry ) > 1 )
-        {
-         $temp_array [ $pattern_file_entry [ 1 ] ] = &$pattern_file_entry [ 0 ];
-        }
+      if ( count ( (array) $pattern_file_entry ) > 1 )
+       {
+        $temp_array [ $pattern_file_entry [ 1 ] ] = &$pattern_file_entry [ 0 ];
+       }
      }
     fclose ( $pattern_file );
     unset  ( $pattern_file );
