@@ -4,12 +4,12 @@
 ################################################################################
 # This file is part of php-web-stat.                                           #
 # Open-Source Statistic Software for Webmasters                                #
-# Script-Version:     5.0                                                      #
-# File-Release-Date:  18/05/14                                                 #
+# Script-Version:     5.3                                                      #
+# File-Release-Date:  21/01/01                                                 #
 # Official web site and latest version:    http://www.php-web-statistik.de     #
 #==============================================================================#
 # Authors: Holger Naves, Reimar Hoven                                          #
-# Copyright © 2018 by PHP Web Stat - All Rights Reserved.                      #
+# Copyright © 2021 by PHP Web Stat - All Rights Reserved.                      #
 ################################################################################
 
 //------------------------------------------------------------------------------
@@ -98,7 +98,7 @@ $pattern_file = file ( "config/pattern_site_name.inc" , FILE_IGNORE_NEW_LINES | 
 foreach ( $pattern_file as $line )
  {
   $temp_line = explode ( "|" , $line );
-  if ( $temp_line [ 0 ] != "" )
+  if ( isset ( $temp_line [ 0 ] ) )
    {
     $global_site_names_reverse [ $temp_line [ 0 ] ] = $temp_line [ 1 ];
    }
@@ -124,7 +124,7 @@ $pattern_file = fopen ( "config/pattern_string_replace.inc" , "r" );
 while ( !FEOF ( $pattern_file ) )
  {
   $pattern_file_entry = fgetcsv ( $pattern_file , 6000 , "|" );
-  if ( $pattern_file_entry [ 0 ] != "" )
+  if ( isset ( $pattern_file_entry [ 0 ] ) )
    {
     $i++;
     $replace_from [ $i ] = $pattern_file_entry [ 0 ];
