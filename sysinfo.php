@@ -4,12 +4,12 @@
 ################################################################################
 # This file is part of php-web-stat.                                           #
 # Open-Source Statistic Software for Webmasters                                #
-# Script-Version:     5.1                                                      #
-# File-Release-Date:  19/07/20                                                 #
+# Script-Version:     5.3                                                      #
+# File-Release-Date:  21/01/01                                                 #
 # Official web site and latest version:    https://www.php-web-statistik.de    #
 #==============================================================================#
 # Authors: Holger Naves, Reimar Hoven                                          #
-# Copyright © 2019 by PHP Web Stat - All Rights Reserved.                      #
+# Copyright © 2021 by PHP Web Stat - All Rights Reserved.                      #
 ################################################################################
 
 //------------------------------------------------------------------------------
@@ -28,8 +28,8 @@ $stat_version  = file ( "index.php" ); // include stat version
 eval($stat_version[32]);
 eval($stat_version[33]);
 $geoip_version = file ( "func/geoip/LocationIPversion.dat" ); // include geoip version
-$sysinfo_vers  = "2.6";  // sysinfo version
-$last_edit     = "2019"; // last file release
+$sysinfo_vers  = "2.7";  // sysinfo version
+$last_edit     = "2021"; // last file release
 //------------------------------------------------------------------------------
 //check date form & language pack
 if ( $language == "language/german.php" )
@@ -196,7 +196,35 @@ function read_installed_plugins ( )
     else
      {
       echo '<table class="table" style="margin:3px 0">';
-      echo '<tr><th>Plugin</th><th>CHMOD</th></tr>';
+
+      // plugin-pack version detection
+      if ( file_exists ( 'plugins/lasthits/info.php' ) )
+       {
+        include ( 'plugins/lasthits/info.php' );
+        if ( $plugin_version == '1.0' ) { $x = '5.0'; }
+        if ( $plugin_version == '1.1' ) { $x = '5.1'; }
+        if ( $plugin_version == '1.2' ) { $x = '5.2'; }
+        if ( $plugin_version == '1.3' ) { $x = '5.3'; }
+        unset ( $plugin_version );
+       }
+      if ( file_exists ( 'plugins/onclick/info.php' ) )
+       {
+        include ( 'plugins/onclick/info.php' );
+        if ( $plugin_version == '1.2' ) { $y = '5.0'; }
+        if ( $plugin_version == '1.3' ) { $y = '5.1'; }
+        if ( $plugin_version == '1.4' ) { $y = '5.2'; }
+        if ( $plugin_version == '1.5' ) { $y = '5.3'; }
+        unset ( $plugin_version );
+       }
+      if ( ( $x == '5.0') && ( $y == '5.0' ) ) { $plugin_pack_version = '5.0'; }
+      if ( ( $x == '5.1') && ( $y == '5.1' ) ) { $plugin_pack_version = '5.1'; }
+      if ( ( $x == '5.2') && ( $y == '5.2' ) ) { $plugin_pack_version = '5.2'; }
+      if ( ( $x == '5.3') && ( $y == '5.3' ) ) { $plugin_pack_version = '5.3'; }
+      unset ( $x );
+      unset ( $y );
+      echo '<tr><th class="bb">Plugin-Pack v'.$plugin_pack_version.'</th><th class="bb">CHMOD</th></tr>';
+
+      // read plugin & version
       foreach ( $plugin_files_read as $value )
        {
         if ( file_exists ( 'plugins/'.$value.'/info.php' ) )
@@ -271,7 +299,7 @@ function read_installed_themes ( )
   //-------------------------------------------------
   foreach ( $theme_files_read as $value )
    {
-    echo '<tr><th colspan="5" class="text-left">'.$icon_folder_th.' themes/'.$value.'</th></tr>';
+    echo '<tr><th colspan="5" class="text-left bb">'.$icon_folder_th.' themes/'.$value.'</th></tr>';
     if ( file_exists ( 'themes/'.$value.'/counter.css' ) )
      {
       if ( ( decoct ( fileperms ( "themes/".$value."/counter.css" ) ) == 100666 ) || ( decoct ( fileperms ( "themes/".$value."/counter.css" ) ) == 100660 ) )
@@ -337,7 +365,10 @@ unset ( $temp_url_parameter );
 //------------------------------------------------------------------------------
 // check last cache update
 $read_cache_update_timestamp = file ( 'log/timestamp_cache_update.dta' );
-$last_cache_update_timestamp = $read_cache_update_timestamp[0];
+if ( isset ( $read_cache_update_timestamp[0] ) )
+ { $last_cache_update_timestamp = $read_cache_update_timestamp[0]; }
+else
+ { $last_cache_update_timestamp = 0; }
 //------------------------------------------------------------------------------
 // check last log entry
 if ( $db_active == 1 )
@@ -356,7 +387,7 @@ else
     while ( !FEOF ( $logfile ) )
      {
       $logfile_entry = fgetcsv ( $logfile , 60000 , "|" );
-      if ( trim ( $logfile_entry [ 0 ] ) != "" ) { $last_log_timestamp = $logfile_entry [ 0 ]; }
+      if ( isset ( $logfile_entry [ 0 ] ) ) { $last_log_timestamp = $logfile_entry [ 0 ]; }
      }
   fclose ( $logfile );
 
@@ -398,7 +429,7 @@ function checker ( $files_path , $actual_version )
   //-----------------------------
   $blacklist_files = array (
                             // folder config
-                            "cache_panel.php","config.php","config_db.php","delete_archive.php","delete_backup.php","delete_index.php","db_transfer.php","edit_css.php","edit_db.php","edit_site_name.php","edit_string_replace.php","file_version.php","pattern_site_name.inc","pattern_string_replace.inc","repair.php","tracking_code.php",
+                            "cache_panel.php","config.php","config_db.php","delete_archive.php","delete_backup.php","delete_index.php","db_transfer.php","edit_css.php","edit_db.php","edit_site_name.php","edit_string_replace.php","file_version.php","pattern_site_name.inc","pattern_string_replace.inc","repair.php","tracking_code.php","tracking_code_xhtml.php",
                             // folder func
                             "checkversion_md5.dta","func_archive_save.php","func_cache_control.php","func_checkversion.php","func_create_index.php","func_crypt.php","func_db_connect.php","func_display_trends.php","func_error.php","func_geoip.php","func_kill_special_chars.php","func_last_logins.php","func_last_logins_show.php","func_pattern_icons.php","func_plugin_loading.php","func_read_dir.php","func_refresh.php","func_timer.php","func_timestamp_control.php","html_footer.php",
                             // main folder
@@ -530,7 +561,7 @@ echo '<div id="ground" style="width:960px">
         <td class="sys-result text-left">'.$version_number.$revision_number.'</td>
       </tr>
       <tr>
-        <td class="sys-info" style="width:160px">Script registered</td>
+        <td class="sys-info" style="width:160px">Domain License</td>
         <td class="sys-result text-left">';
         //-----------------------------
         $temp_script_domain = str_replace ( 'https://' , '' , $script_domain );
@@ -732,14 +763,14 @@ echo '<div id="ground" style="width:960px">
       <td class="sys-result text-center">'; if ( ( decoct ( fileperms ( "log/" ) ) == 40777 ) || ( decoct ( fileperms ( "log/" ) ) == 40775 ) || ( decoct ( fileperms ( "log/" ) ) == 40770 ) ) { echo $icon_chmod_ok; } else { echo $icon_chmod_error; } echo '</td>
     </tr>
     <tr>
-      <td class="sys-info" style="border-bottom:1px solid #666">'.$icon_folder.' log/archive/</td>
-      <td class="sys-result text-right" style="border-bottom:1px solid #666">&nbsp;</td>
-      <td class="sys-result text-right" style="border-bottom:1px solid #666">&nbsp;</td>
-      <td class="sys-result text-center" style="border-bottom:1px solid #666">'.folder_perms("log/archive/").'</td>
-      <td class="sys-result text-center" style="border-bottom:1px solid #666">'; if ( ( decoct ( fileperms ( "log/archive/" ) ) == 40777 ) || ( decoct ( fileperms ( "log/archive/" ) ) == 40775 ) || ( decoct ( fileperms ( "log/archive/" ) ) == 40770 ) ) { echo $icon_chmod_ok; } else { echo $icon_chmod_error; } echo '</td>
+      <td class="sys-info">'.$icon_folder.' log/archive/</td>
+      <td class="sys-result text-right">&nbsp;</td>
+      <td class="sys-result text-right">&nbsp;</td>
+      <td class="sys-result text-center">'.folder_perms("log/archive/").'</td>
+      <td class="sys-result text-center">'; if ( ( decoct ( fileperms ( "log/archive/" ) ) == 40777 ) || ( decoct ( fileperms ( "log/archive/" ) ) == 40775 ) || ( decoct ( fileperms ( "log/archive/" ) ) == 40770 ) ) { echo $icon_chmod_ok; } else { echo $icon_chmod_error; } echo '</td>
     </tr>
     <tr>
-      <th colspan="5" class="text-left">'.$icon_folder_th.' config (files)</th>
+      <th colspan="5" class="text-left bb">'.$icon_folder_th.' config (files)</th>
     </tr>
     <tr>
       <td class="sys-info">config.php</td>
@@ -770,14 +801,21 @@ echo '<div id="ground" style="width:960px">
       <td class="sys-result text-center">'; if ( ( decoct ( fileperms ( "config/pattern_string_replace.inc" ) ) != 100666 ) && ( decoct ( fileperms ( "config/pattern_string_replace.inc" ) ) != 100660 ) ) { echo $icon_chmod_error; } else { echo $icon_chmod_ok; } echo '</td>
     </tr>
     <tr>
-      <td class="sys-info" style="border-bottom:1px solid #666">tracking_code.php</td>
-      <td class="sys-result text-right" style="border-bottom:1px solid #666">'.file_size("config/tracking_code.php").' KB</td>
-      <td class="sys-result text-right" style="border-bottom:1px solid #666">'.file_row_size_small("config/tracking_code.php").'</td>
-      <td class="sys-result text-center" style="border-bottom:1px solid #666">'.file_perms("config/tracking_code.php").'</td>
-      <td class="sys-result text-center" style="border-bottom:1px solid #666">'; if ( ( decoct ( fileperms ( "config/tracking_code.php" ) ) != 100666 ) && ( decoct ( fileperms ( "config/tracking_code.php" ) ) != 100660 ) ) { echo $icon_chmod_error; } else { echo $icon_chmod_ok; } echo '</td>
+      <td class="sys-info">tracking_code.php</td>
+      <td class="sys-result text-right">'.file_size("config/tracking_code.php").' KB</td>
+      <td class="sys-result text-right">'.file_row_size_small("config/tracking_code.php").'</td>
+      <td class="sys-result text-center">'.file_perms("config/tracking_code.php").'</td>
+      <td class="sys-result text-center">'; if ( ( decoct ( fileperms ( "config/tracking_code.php" ) ) != 100666 ) && ( decoct ( fileperms ( "config/tracking_code.php" ) ) != 100660 ) ) { echo $icon_chmod_error; } else { echo $icon_chmod_ok; } echo '</td>
     </tr>
     <tr>
-      <th colspan="5" class="text-left">'.$icon_folder_th.' css (files)</th>
+      <td class="sys-info">tracking_code_xhtml.php</td>
+      <td class="sys-result text-right">'.file_size("config/tracking_code_xhtml.php").' KB</td>
+      <td class="sys-result text-right">'.file_row_size_small("config/tracking_code_xhtml.php").'</td>
+      <td class="sys-result text-center">'.file_perms("config/tracking_code_xhtml.php").'</td>
+      <td class="sys-result text-center">'; if ( ( decoct ( fileperms ( "config/tracking_code_xhtml.php" ) ) != 100666 ) && ( decoct ( fileperms ( "config/tracking_code_xhtml.php" ) ) != 100660 ) ) { echo $icon_chmod_error; } else { echo $icon_chmod_ok; } echo '</td>
+    </tr>
+    <tr>
+      <th colspan="5" class="text-left bb">'.$icon_folder_th.' css (files)</th>
     </tr>
     <tr>
       <td class="sys-info">print.css</td>
@@ -787,14 +825,14 @@ echo '<div id="ground" style="width:960px">
       <td class="sys-result text-center">'; if ( ( decoct ( fileperms ( "css/print.css" ) ) != 100666 ) && ( decoct ( fileperms ( "css/print.css" ) ) != 100660 ) ) { echo $icon_chmod_error; } else { echo $icon_chmod_ok; } echo '</td>
     </tr>
     <tr>
-      <td class="sys-info" style="border-bottom:1px solid #666">style.css</td>
-      <td class="sys-result text-right" style="border-bottom:1px solid #666">'.file_size("css/style.css").' KB</td>
-      <td class="sys-result text-right" style="border-bottom:1px solid #666">'.file_row_size_small("css/style.css").'</td>
-      <td class="sys-result text-center" style="border-bottom:1px solid #666">'.file_perms("css/style.css").'</td>
-      <td class="sys-result text-center" style="border-bottom:1px solid #666">'; if ( ( decoct ( fileperms ( "css/style.css" ) ) != 100666 ) && ( decoct ( fileperms ( "css/style.css" ) ) != 100660 ) ) { echo $icon_chmod_error; } else { echo $icon_chmod_ok; } echo '</td>
+      <td class="sys-info">style.css</td>
+      <td class="sys-result text-right">'.file_size("css/style.css").' KB</td>
+      <td class="sys-result text-right">'.file_row_size_small("css/style.css").'</td>
+      <td class="sys-result text-center">'.file_perms("css/style.css").'</td>
+      <td class="sys-result text-center">'; if ( ( decoct ( fileperms ( "css/style.css" ) ) != 100666 ) && ( decoct ( fileperms ( "css/style.css" ) ) != 100660 ) ) { echo $icon_chmod_error; } else { echo $icon_chmod_ok; } echo '</td>
     </tr>
     <tr>
-      <th colspan="5" class="text-left">'.$icon_folder_th.' func/geoip (files)</th>
+      <th colspan="5" class="text-left bb">'.$icon_folder_th.' func/geoip (files)</th>
     </tr>
     <tr>
       <td class="sys-info">LocationIP.bin</td>
@@ -818,7 +856,7 @@ echo '<div id="ground" style="width:960px">
       <td class="sys-result text-center">'; if ( ( decoct ( fileperms ( "func/geoip/LocationIPversion.dat" ) ) != 100666 ) && ( decoct ( fileperms ( "func/geoip/LocationIPversion.dat" ) ) != 100660 ) ) { echo $icon_chmod_error; } else { echo $icon_chmod_ok; } echo '</td>
     </tr>
     <tr>
-      <th colspan="5" class="text-left">'.$icon_folder_th.' log (files)</th>
+      <th colspan="5" class="text-left bb">'.$icon_folder_th.' log (files)</th>
     </tr>
     <tr>
       <td class="sys-info">cache_memory_address.php</td>
