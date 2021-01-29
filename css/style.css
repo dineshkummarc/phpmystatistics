@@ -1,7 +1,7 @@
 /* ----------------------------------------------------------------
-   Stylesheet created by PHP Web Stat, File-Release at 2019-08-08
-   PHP Web Stat v5.1 (https://www.php-web-statistik.de)
-   Copyright 2019 PHP Web Stat
+   Stylesheet created by PHP Web Stat, File-Release at 2020-06-01
+   PHP Web Stat v5.3 (https://www.php-web-statistik.de)
+   Copyright 2020 PHP Web Stat
 ---------------------------------------------------------------- */
 @import url('./normalize.css');
 @import url('./general.css');
@@ -1367,6 +1367,9 @@ button.close {
   border-bottom: 1px solid #000; /* safety */
   background-color: #d9d9d9; /* safety */
   padding: 0 3px; }
+
+.sys-table th.bb {
+  border-top: 1px solid #666; } /* safety */
 
 .sys-info {
   border-right: 1px solid #ddd; /* safety */
