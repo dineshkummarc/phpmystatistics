@@ -4,12 +4,12 @@
 ################################################################################
 # This file is part of php-web-stat.                                           #
 # Open-Source Statistic Software for Webmasters                                #
-# Script-Version:     5.0                                                      #
-# File-Release-Date:  18/06/02                                                 #
+# Script-Version:     5.3                                                      #
+# File-Release-Date:  21/01/01                                                 #
 # Official web site and latest version:    https://www.php-web-statistik.de    #
 #==============================================================================#
 # Authors: Holger Naves, Reimar Hoven                                          #
-# Copyright © 2018 by PHP Web Stat - All Rights Reserved.                      #
+# Copyright © 2021 by PHP Web Stat - All Rights Reserved.                      #
 ################################################################################
 error_reporting(0);
 //------------------------------------------------------------------------------
@@ -17,7 +17,7 @@ error_reporting(0);
 $stat_version = file ( "../index.php" ); // include stat version
 eval ( $stat_version [ 32 ] );
 eval ( $stat_version [ 33 ] );
-$last_edit = "2018";
+$last_edit = "2021";
 //------------------------------------------------------------------------------
 /* Filter $_GET and $_POST Vars */
 function array_map_R ( $func , $arr )
@@ -39,12 +39,8 @@ function array_map_R ( $func , $arr )
 
 $_POST = array_map_R ( 'strip_tags' , $_POST );
 $_GET  = array_map_R ( 'strip_tags' , $_GET  );
-
-if ( !get_magic_quotes_gpc() )
- {
-	$_POST = array_map_R ( 'addslashes' , $_POST );
-	$_GET  = array_map_R ( 'addslashes' , $_GET  );
- }
+$_POST = array_map_R ( 'addslashes' , $_POST );
+$_GET  = array_map_R ( 'addslashes' , $_GET  );
 //------------------------------------------------------------------------------
 $strLanguageFile = "";
 if ( isset ( $_GET [ 'lang' ] ) || isset ( $_POST [ 'lang' ] ) )

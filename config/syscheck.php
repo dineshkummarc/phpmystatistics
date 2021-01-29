@@ -4,12 +4,12 @@
 ################################################################################
 # This file is part of php-web-stat.                                           #
 # Open-Source Statistic Software for Webmasters                                #
-# Script-Version:     5.0                                                      #
-# File-Release-Date:  18/05/05                                                 #
+# Script-Version:     5.3                                                      #
+# File-Release-Date:  21/01/03                                                 #
 # Official web site and latest version:    https://www.php-web-statistik.de    #
 #==============================================================================#
 # Authors: Holger Naves, Reimar Hoven                                          #
-# Copyright © 2018 by PHP Web Stat - All Rights Reserved.                      #
+# Copyright © 2021 by PHP Web Stat - All Rights Reserved.                      #
 ################################################################################
 
 //------------------------------------------------------------------------------
@@ -431,6 +431,7 @@ elseif ( isset ( $_POST [ 'parameter' ] ) && $_POST [ 'parameter' ] == "$lang_ad
   if ( ( decoct ( fileperms ( "pattern_site_name.inc"      ) ) == 100666 ) || ( decoct ( fileperms ( "pattern_site_name.inc"      ) ) == 100660 ) ) { echo '<tr><td class="td1">&nbsp;</td><td class="td2">pattern_site_name.inc</td>     <td class="td3">'.file_perms ( "pattern_site_name.inc" ).'</td>     <td class="td4">'.$icon_chmod_ok.'</td></tr>'; } else { echo '<tr><td class="td1">&nbsp;</td><td class="td2">pattern_site_name.inc</td>     <td class="td3">'.file_perms ( "pattern_site_name.inc" ).'</td>     <td class="td4">'.$icon_chmod_error.'</td></tr>'; }
   if ( ( decoct ( fileperms ( "pattern_string_replace.inc" ) ) == 100666 ) || ( decoct ( fileperms ( "pattern_string_replace.inc" ) ) == 100660 ) ) { echo '<tr><td class="td1">&nbsp;</td><td class="td2">pattern_string_replace.inc</td><td class="td3">'.file_perms ( "pattern_string_replace.inc" ).'</td><td class="td4">'.$icon_chmod_ok.'</td></tr>'; } else { echo '<tr><td class="td1">&nbsp;</td><td class="td2">pattern_string_replace.inc</td><td class="td3">'.file_perms ( "pattern_string_replace.inc" ).'</td><td class="td4">'.$icon_chmod_error.'</td></tr>'; }
   if ( ( decoct ( fileperms ( "tracking_code.php"          ) ) == 100666 ) || ( decoct ( fileperms ( "tracking_code.php"          ) ) == 100660 ) ) { echo '<tr><td class="td1">&nbsp;</td><td class="td2">tracking_code.php</td>         <td class="td3">'.file_perms ( "tracking_code.php" ).'</td>         <td class="td4">'.$icon_chmod_ok.'</td></tr>'; } else { echo '<tr><td class="td1">&nbsp;</td><td class="td2">tracking_code.php</td>         <td class="td3">'.file_perms ( "tracking_code.php" ).'</td>         <td class="td4">'.$icon_chmod_error.'</td></tr>'; }
+  if ( ( decoct ( fileperms ( "tracking_code_xhtml.php"    ) ) == 100666 ) || ( decoct ( fileperms ( "tracking_code_xhtml.php"    ) ) == 100660 ) ) { echo '<tr><td class="td1">&nbsp;</td><td class="td2">tracking_code_xhtml.php</td>   <td class="td3">'.file_perms ( "tracking_code_xhtml.php" ).'</td>   <td class="td4">'.$icon_chmod_ok.'</td></tr>'; } else { echo '<tr><td class="td1">&nbsp;</td><td class="td2">tracking_code_xhtml.php</td>   <td class="td3">'.file_perms ( "tracking_code_xhtml.php" ).'</td>   <td class="td4">'.$icon_chmod_error.'</td></tr>'; }
   echo '</table>';
 
   echo '<table class="chmodtable">';

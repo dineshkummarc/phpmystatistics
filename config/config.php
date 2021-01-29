@@ -3,11 +3,11 @@
 /* general configuration */
  $script_activity             = 1;
  $db_active                   = 0;
- $script_domain               = "http://www.example.com";
- $home_site_name              = "index.php";
+ $script_domain               = "http://local.rocket.co.in:8081";
+ $home_site_name              = "";
  $script_path                 = "stat/";
- $exception_domain            = array ( "example.com" );
- $stat_name                   = "www.example.com";
+ $exception_domain            = array ( "se.com" );
+ $stat_name                   = "http://local.rocket.co.in:8081";
  $language                    = "language/english.php";
  $language_patterns           = "language/english_country.php";
  $url_parameter               = array (  );
@@ -17,8 +17,8 @@
  $exception_ip_addresses      = array (  );
  $block_referer               = array ( "some-spammer","other-spammer","semalt","buttons" );
  $block_bots                  = array ( "Googlebot","Bingbot","Yahoo","Gigabot","msnbot","SearchSight","Seekbot","Baiduspider","BecomeBot","BeslistBot","BillyBobBot","Bimbot","sogou","SurveyBot","SynooBot","Teoma","webcollage","Yandex" );
- $server_time                 = "+0h";
- $frames                      = 0;
+ $server_time                 = "+5,5h";
+ $frames                      = 1;
  $ip_recount_time             = 1440;
  $auto_update_check           = 1;
  $starting_date               = "TT.MM.YYYY";

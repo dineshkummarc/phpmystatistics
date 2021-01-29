@@ -4,12 +4,12 @@
 ################################################################################
 # This file is part of php-web-stat.                                           #
 # Open-Source Statistic Software for Webmasters                                #
-# Script-Version:     5.1                                                      #
-# File-Release-Date:  19/07/15                                                 #
+# Script-Version:     5.3                                                      #
+# File-Release-Date:  21/01/01                                                 #
 # Official web site and latest version:    https://www.php-web-statistik.de    #
 #==============================================================================#
 # Authors: Holger Naves, Reimar Hoven                                          #
-# Copyright © 2019 by PHP Web Stat - All Rights Reserved.                      #
+# Copyright © 2021 by PHP Web Stat - All Rights Reserved.                      #
 ################################################################################
 error_reporting(0);
 //------------------------------------------------------------------------------
@@ -20,10 +20,10 @@ error_reporting(0);
 $stat_version = file("../index.php"); // include stat version
 eval($stat_version[32]);
 eval($stat_version[33]);
-$last_edit = "2018";
+$last_edit = "2021";
 //------------------------------------------------------------------------------
 ##### !!! never change this value !!! #####
-$admin_version = "1.8";
+$admin_version = "1.9";
 //------------------------------------------------------------------------------
 if ( isset ( $_GET [ 'logout' ] ) )
  {
@@ -53,12 +53,8 @@ function array_map_R ( $func , $arr )
 
 $_POST = array_map_R ( 'strip_tags' , $_POST );
 $_GET  = array_map_R ( 'strip_tags' , $_GET  );
-
-if ( !get_magic_quotes_gpc() )
- {
-  $_POST = array_map_R ( 'addslashes' , $_POST );
-  $_GET  = array_map_R ( 'addslashes' , $_GET  );
- }
+$_POST = array_map_R ( 'addslashes' , $_POST );
+$_GET  = array_map_R ( 'addslashes' , $_GET  );
 //------------------------------------------------------------------------------
 $strLanguageFile = "";
 if ( isset ( $_GET [ 'lang' ] ) || isset ( $_POST [ 'lang' ] ) )
@@ -524,20 +520,20 @@ if ( ( isset ( $_POST [ 'hidden_admin' ] ) && $_POST [ 'hidden_admin' ] == $_SES
     fclose ( $config_file_db );
    }
   //------------------------------
-  /* write tracking_code file */
-  $tracking_code_file = fopen ( "tracking_code.php" , "r+" );
-   flock ( $tracking_code_file , LOCK_EX );
-    ftruncate ( $tracking_code_file , 0 );
-    fwrite ( $tracking_code_file , "<?php\n" );
-    fwrite ( $tracking_code_file , "//------------------------------------------------------------------------------\n" );
-    fwrite ( $tracking_code_file , "if ( strpos ( strtolower ( \$_SERVER [ \"PHP_SELF\" ] ) , \"tracking_code.php\" ) > 0 )\n" );
-    fwrite ( $tracking_code_file , " {\n" );
-    fwrite ( $tracking_code_file , "  exit;\n" );
-    fwrite ( $tracking_code_file , " }\n" );
-    fwrite ( $tracking_code_file , "else\n" );
-    fwrite ( $tracking_code_file , " {\n" );
-    fwrite ( $tracking_code_file , "  echo '\n" );
-    fwrite ( $tracking_code_file , "  <script type=\"text/javascript\" src=\"".$_POST [ 'script_domain' ]."/".$_POST [ 'script_path' ]."pws.php?mode=js\"></script>\n" );
+  /* write tracking_code files */
+  $tracking_code_file1 = fopen ( "tracking_code.php" , "r+" );
+   flock ( $tracking_code_file1 , LOCK_EX );
+    ftruncate ( $tracking_code_file1 , 0 );
+    fwrite ( $tracking_code_file1 , "<?php\n" );
+    fwrite ( $tracking_code_file1 , "//------------------------------------------------------------------------------\n" );
+    fwrite ( $tracking_code_file1 , "if ( strpos ( strtolower ( \$_SERVER [ \"PHP_SELF\" ] ) , \"tracking_code.php\" ) > 0 )\n" );
+    fwrite ( $tracking_code_file1 , " {\n" );
+    fwrite ( $tracking_code_file1 , "  exit;\n" );
+    fwrite ( $tracking_code_file1 , " }\n" );
+    fwrite ( $tracking_code_file1 , "else\n" );
+    fwrite ( $tracking_code_file1 , " {\n" );
+    fwrite ( $tracking_code_file1 , "  echo '\n" );
+    fwrite ( $tracking_code_file1 , "  <script src=\"".$_POST [ 'script_domain' ]."/".$_POST [ 'script_path' ]."pws.php?mode=js\"></script>\n" );
     if ( file_exists ( "../plugins/onclick/pws_file.php" ) )
      {
       if ( file_exists ( "../plugins/onclick/config.php" ) )
@@ -545,20 +541,54 @@ if ( ( isset ( $_POST [ 'hidden_admin' ] ) && $_POST [ 'hidden_admin' ] == $_SES
         include ( "../plugins/onclick/config.php" );
         if ( $plugin_activity == 1 )
          {
-          fwrite ( $tracking_code_file , "  <script type=\"text/javascript\" src=\"".$_POST [ 'script_domain' ]."/".$_POST [ 'script_path' ]."plugins/onclick/pws_file.php\"></script>\n" );
+          fwrite ( $tracking_code_file1 , "  <script src=\"".$_POST [ 'script_domain' ]."/".$_POST [ 'script_path' ]."plugins/onclick/pws_file.php\"></script>\n" );
          }
        }
      }
-    fwrite ( $tracking_code_file , "  <noscript><img src=\"".$_POST [ 'script_domain' ]."/".$_POST [ 'script_path' ]."pws.php?mode=img\" style=\"border:0; width:1px; height:1px\" alt=\"noscript-img\"></noscript>\n" );
-    fwrite ( $tracking_code_file , "  ';\n" );
-    fwrite ( $tracking_code_file , " }\n" );
-    fwrite ( $tracking_code_file , "//------------------------------------------------------------------------------\n" );
-    fwrite ( $tracking_code_file , "?>" );
-   flock ( $tracking_code_file , LOCK_UN );
-  fclose ( $tracking_code_file );
+    fwrite ( $tracking_code_file1 , "  <noscript><img src=\"".$_POST [ 'script_domain' ]."/".$_POST [ 'script_path' ]."pws.php?mode=img\" style=\"border:0; width:1px; height:1px\" alt=\"noscript-img\"></noscript>\n" );
+    fwrite ( $tracking_code_file1 , "  ';\n" );
+    fwrite ( $tracking_code_file1 , " }\n" );
+    fwrite ( $tracking_code_file1 , "//------------------------------------------------------------------------------\n" );
+    fwrite ( $tracking_code_file1 , "?>" );
+   flock ( $tracking_code_file1 , LOCK_UN );
+  fclose ( $tracking_code_file1 );
+  //------------------------------
+  $tracking_code_file2 = fopen ( "tracking_code_xhtml.php" , "r+" );
+   flock ( $tracking_code_file2 , LOCK_EX );
+    ftruncate ( $tracking_code_file2 , 0 );
+    fwrite ( $tracking_code_file2 , "<?php\n" );
+    fwrite ( $tracking_code_file2 , "//------------------------------------------------------------------------------\n" );
+    fwrite ( $tracking_code_file2 , "if ( strpos ( strtolower ( \$_SERVER [ \"PHP_SELF\" ] ) , \"tracking_code_xhtml.php\" ) > 0 )\n" );
+    fwrite ( $tracking_code_file2 , " {\n" );
+    fwrite ( $tracking_code_file2 , "  exit;\n" );
+    fwrite ( $tracking_code_file2 , " }\n" );
+    fwrite ( $tracking_code_file2 , "else\n" );
+    fwrite ( $tracking_code_file2 , " {\n" );
+    fwrite ( $tracking_code_file2 , "  echo '\n" );
+    fwrite ( $tracking_code_file2 , "  <script type=\"text/javascript\" src=\"".$_POST [ 'script_domain' ]."/".$_POST [ 'script_path' ]."pws.php?mode=js\"></script>\n" );
+    if ( file_exists ( "../plugins/onclick/pws_file.php" ) )
+     {
+      if ( file_exists ( "../plugins/onclick/config.php" ) )
+       {
+        include ( "../plugins/onclick/config.php" );
+        if ( $plugin_activity == 1 )
+         {
+          fwrite ( $tracking_code_file2 , "  <script type=\"text/javascript\" src=\"".$_POST [ 'script_domain' ]."/".$_POST [ 'script_path' ]."plugins/onclick/pws_file.php\"></script>\n" );
+         }
+       }
+     }
+    fwrite ( $tracking_code_file2 , "  <noscript><img src=\"".$_POST [ 'script_domain' ]."/".$_POST [ 'script_path' ]."pws.php?mode=img\" style=\"border:0; width:1px; height:1px\" alt=\"noscript-img\"></noscript>\n" );
+    fwrite ( $tracking_code_file2 , "  ';\n" );
+    fwrite ( $tracking_code_file2 , " }\n" );
+    fwrite ( $tracking_code_file2 , "//------------------------------------------------------------------------------\n" );
+    fwrite ( $tracking_code_file2 , "?>" );
+   flock ( $tracking_code_file2 , LOCK_UN );
+  fclose ( $tracking_code_file2 );
   //------------------------------
   unset ( $config_file );
   unset ( $_SESSION [ 'hidden_admin' ] );
+  unset ( $tracking_code_file1 );
+  unset ( $tracking_code_file2 );
   //----------
   unset ( $script_activity        );
   unset ( $script_domain          );
@@ -1070,17 +1100,17 @@ echo '
       <script language=\"javascript\" src=\"https://www.php-web-statistik.de/checkversion.js\" type=\"text/javascript\"></script>
       <script language=\"javascript\" type=\"text/javascript\">
       <!-- //hide from dinosaurs
-      document.write('<tr><td class=\"bg1\" style=\"padding:3px;\">".$lang_admin_i_vi[2]."</td><td class=\"bg1\" style=\"padding:3px;\"><b>".$version_number.$revision_number."</b></td></tr>');
+      document.write('<tr><td class=\"bg1\" style=\"padding:3px; height:26px;\">".$lang_admin_i_vi[2]."</td><td class=\"bg1\" style=\"padding:3px;\"><b>".$version_number.$revision_number."</b></td></tr>');
       if (!STABLE)
        {
-        document.write('<tr><td class=\"bg1\" style=\"padding:3px;\">".$lang_admin_i_vi[4]."</td><td class=\"bg1\" style=\"padding:3px;\">&nbsp;</td></tr>');
-        document.write('<tr><td class=\"bg1\" style=\"padding:3px;\">".$lang_admin_i_vi[5]."</td><td class=\"bg1\" style=\"padding:3px;\">&nbsp;</td></tr>');
+        document.write('<tr><td class=\"bg1\" style=\"padding:3px; height:26px;\">".$lang_admin_i_vi[4]."</td><td class=\"bg1\" style=\"padding:3px;\">&nbsp;</td></tr>');
+        document.write('<tr><td class=\"bg1\" style=\"padding:3px; height:26px;\">".$lang_admin_i_vi[5]."</td><td class=\"bg1\" style=\"padding:3px;\">&nbsp;</td></tr>');
         document.write('<tr><td colspan=\"2\" class=\"bg1\" style=\"padding:3px;\"><br /><b>".$lang_admin_i_vi[3]."</b><br /><br /></td></tr>');
        }
       else
        {
-       document.write('<tr><td class=\"bg1\" style=\"padding:3px;\">".$lang_admin_i_vi[4]."</td><td class=\"bg1\" style=\"padding:3px;\"><b>'+STABLE+'</b></td></tr>');
-       document.write('<tr><td class=\"bg1\" style=\"padding:3px;\">".$lang_admin_i_vi[5]."</td><td class=\"bg1\" style=\"padding:3px;\"><b>'+BETA+'</b></td></tr>');
+       document.write('<tr><td class=\"bg1\" style=\"padding:3px; height:26px;\">".$lang_admin_i_vi[4]."</td><td class=\"bg1\" style=\"padding:3px;\"><b>'+STABLE+'</b></td></tr>');
+       document.write('<tr><td class=\"bg1\" style=\"padding:3px; height:26px;\">".$lang_admin_i_vi[5]."</td><td class=\"bg1\" style=\"padding:3px;\"><b>'+BETA+'</b></td></tr>');
         if (STABLE > \"".$version_number.$revision_number."\")
          {
           document.write('<tr><td colspan=\"2\" class=\"bg1\" style=\"padding:3px;\" valign=\"middle\"><br /><b><font color=\"red\">".$lang_admin_i_vi[6]."</font></b><br />".$lang_admin_i_vi[7]." (<b>'+STABLE+'</b>) ".$lang_admin_i_vi[8]."<br /><a href=\"http://www.php-web-statistik.de\" target=\"_blank\" title=\"php web statistik, webstat, besucher statistik, stat, counter, tracker\">http://www.php-web-statistik.de</a><br /><br /></td></tr>');
@@ -1113,7 +1143,8 @@ echo '
       <th>".$lang_admin_i_i[1]."</th>
     </tr>
     <tr>
-      <td class=\"bg1\" style=\"padding:4px; height:111px; vertical-align:top;\">
+      <td class=\"bg1\" style=\"padding:4px; height:132px; vertical-align:top;\">
+      <div style=\"overflow-x:auto; height:124px\">
       <script language=\"javascript\" type=\"text/javascript\">
       <!-- //hide from dinosaurs
       var INFO;
@@ -1142,6 +1173,7 @@ echo '
       // -->
       </script>
       <noscript>".$lang_admin_i_vi[10]."</noscript>
+      </div>
       </td>
     </tr>
     </table>
